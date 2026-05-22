@@ -22,9 +22,30 @@ Newer MediaTek Kindles using `libcomposite`/`configfs` (2023+ ish). Not intended
 
 ## Installation
 
+### KOReader plugin install (recommended)
+
 1. Download the latest `ZenMTP-vX.X.zip` from [Releases](https://github.com/AnthonyGress/ZenKindleMTP/releases).
 2. Unzip it.
-3. Drag the `ZenMTP` folder into `/mnt/us/documents` on your Kindle.
+3. Copy `zenmtp.koplugin` into your KOReader plugins directory.
+4. Enable `Zen MTP` in KOReader plugin settings.
+
+On plugin init, `zenmtp.koplugin` will install `ZenMTP` to `/mnt/us/documents/ZenMTP` if it does not exist already.
+
+```
+/mnt/us/documents/ZenMTP/
+├── ZenMTP.sh
+└── zen.png
+```
+
+### Assign a gesture in KOReader
+
+1. Open KOReader Gestures settings.
+2. Pick a gesture and assign action `Zen MTP: switch to MTP`.
+3. Trigger that gesture to run the script.
+
+### Standalone script install (manual)
+
+If you do not use the plugin, copy `ZenMTP` directly to `/mnt/us/documents`:
 
 ```
 /mnt/us/documents/ZenMTP/
