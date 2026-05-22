@@ -339,6 +339,7 @@ log_w "phase2 begin"
 _t=0
 _hb=0
 _diag=0
+_splash_drawn=0
 inactive_streak=0
 _rm_seen=0
 _rm_dead_at=-1
@@ -351,9 +352,20 @@ while [ "\$_t" -lt 21600 ]; do
     if mtp_is_active; then
         _mtp_now=1
         inactive_streak=0
+        _splash_drawn=0
     else
         inactive_streak=\$((inactive_streak + 2))
         log_w "phase2 inactive streak=\${inactive_streak}s elapsed=\${_t}s"
+        # Draw splash immediately at first sign of inactivity so there's no blank gap.
+        # Only after setup is done AND we're well past the re-enumeration window.
+        if [ "\$_splash_drawn" -eq 0 ] && [ -f "\$SETUP_DONE_FLAG" ] && [ "\$_t" -ge 20 ]; then
+            _splash_drawn=1
+            if [ -n "\$EIPS_BIN" ] && [ -f "\$SPLASH" ]; then
+                "\$EIPS_BIN" -g "\$SPLASH" >/dev/null 2>/dev/null || true
+            elif [ -n "\$EIPS_BIN" ]; then
+                "\$EIPS_BIN" 0 0 "Zen MTP" >/dev/null 2>/dev/null || true
+            fi
+        fi
         if [ "\$inactive_streak" -ge 6 ]; then
             log_mtp_state
             log_w "MTP inactive for \${inactive_streak}s at elapsed=\${_t}s; triggering restore"
@@ -395,6 +407,13 @@ done
 
 if [ "\$_t" -ge 21600 ]; then log_w "timeout 6h; exiting"; exit 0; fi
 
+# Show splash immediately — no blank screen gap.
+if [ -n "\$EIPS_BIN" ] && [ -f "\$SPLASH" ]; then
+    "\$EIPS_BIN" -g "\$SPLASH" >/dev/null 2>/dev/null || true
+elif [ -n "\$EIPS_BIN" ]; then
+    "\$EIPS_BIN" 0 0 "Zen MTP" >/dev/null 2>/dev/null || true
+fi
+
 # Kill orphaned splash daemon - it outlives ZenMTP.sh and overwrites the display.
 touch "/tmp/zenmtp_splash.stop" 2>/dev/null || true
 if [ -r "/tmp/zenmtp_splash.pid" ]; then
@@ -414,15 +433,38 @@ if koreader_running; then
 fi
 
 rm -f "\$RESTORE_FLAG" 2>/dev/null || true
-sleep 2
 
-if [ -n "\$EIPS_BIN" ] && [ -f "\$SPLASH" ]; then
-    "\$EIPS_BIN" -g "\$SPLASH" >/dev/null 2>/dev/null || true
-elif [ -n "\$EIPS_BIN" ]; then
-    "\$EIPS_BIN" 0 0 "Zen MTP" >/dev/null 2>/dev/null || true
-fi
+# Helper: restore frontlight from saved value.
+_restore_fl() {
+    if [ -r "/tmp/zenmtp_frontlight" ]; then
+        _br="\$(cat /tmp/zenmtp_frontlight 2>/dev/null)"
+        if [ -n "\$_br" ] && [ "\$_br" -gt 0 ] 2>/dev/null; then
+            # Use the exact saved path if we have one.
+            if [ -r "/tmp/zenmtp_frontlight_path" ]; then
+                _blpath="\$(cat /tmp/zenmtp_frontlight_path 2>/dev/null)"
+                [ -n "\$_blpath" ] && [ -w "\$_blpath" ] && echo "\$_br" > "\$_blpath" 2>/dev/null || true
+            fi
+            # Also try lipc in case framework is still alive.
+            if command -v lipc-set-prop >/dev/null 2>&1; then
+                lipc-set-prop com.lab126.powerd flEnable 1 >/dev/null 2>/dev/null || true
+                lipc-set-prop com.lab126.powerd flIntensity "\$_br" >/dev/null 2>/dev/null || true
+            fi
+            # Fallback: brute-force all known backlight paths.
+            for _bl in /sys/class/backlight/*/brightness; do
+                [ -w "\$_bl" ] && echo "\$_br" > "\$_bl" 2>/dev/null || true
+            done
+            _epdc="/sys/devices/platform/mxc_epdc_fb/graphics/fb0/epdc_brightness"
+            [ -w "\$_epdc" ] && echo "\$_br" > "\$_epdc" 2>/dev/null || true
+        fi
+    fi
+}
 
 log_w "stopping UI jobs"
+
+# Restore frontlight NOW, before stopping framework — lipc/powerd must
+# still be running for the flEnable/flIntensity commands to take effect.
+_restore_fl 2>/dev/null || true
+
 for job_name in appmgrd lab126_gui framework; do
     if initctl status "\$job_name" 2>/dev/null | grep -q "start/running"; then
         stop "\$job_name" >/dev/null 2>/dev/null || true
@@ -430,6 +472,11 @@ for job_name in appmgrd lab126_gui framework; do
     fi
 done
 sleep 1
+
+# Framework shutdown may have killed the light — restore via sysfs.
+_restore_fl 2>/dev/null || true
+log_w "restored frontlight"
+rm -f /tmp/zenmtp_frontlight /tmp/zenmtp_frontlight_path 2>/dev/null || true
 
 if [ -f "\$KOREADER_LAUNCH" ]; then
     nohup sh "\$KOREADER_LAUNCH" --kual --no-framework </dev/null >/dev/null 2>&1 &
@@ -445,6 +492,8 @@ if [ -f "\$KOREADER_LAUNCH" ]; then
             sleep 1
             _s=\$((_s + 1))
         done
+        # KOReader startup may have reset brightness — override one final time.
+        _restore_fl 2>/dev/null || true
     fi
 else
     log_w "KOReader launch script not found: \$KOREADER_LAUNCH"
@@ -538,6 +587,33 @@ log "ZenMTP v$WATCHER_VERSION start"
 
 # Clean up flags from any previous incomplete session.
 rm -f "$ZENMTP_SETUP_DONE_FLAG" 2>/dev/null || true
+
+# Save frontlight brightness so the watcher can restore it after MTP.
+_fl_save="/tmp/zenmtp_frontlight"
+_fl_path="/tmp/zenmtp_frontlight_path"
+rm -f "$_fl_path" 2>/dev/null || true
+if command -v lipc-get-prop >/dev/null 2>&1; then
+    lipc-get-prop com.lab126.powerd flIntensity > "$_fl_save" 2>/dev/null || true
+fi
+# Fallback: try sysfs if lipc didn't produce a value.
+if [ ! -s "$_fl_save" ]; then
+    for _bl in /sys/class/backlight/*/brightness; do
+        if [ -r "$_bl" ]; then
+            cat "$_bl" > "$_fl_save" 2>/dev/null || true
+            echo "$_bl" > "$_fl_path" 2>/dev/null || true
+            break
+        fi
+    done
+fi
+# If still empty, try epdc path.
+if [ ! -s "$_fl_save" ]; then
+    _epdc="/sys/devices/platform/mxc_epdc_fb/graphics/fb0/epdc_brightness"
+    if [ -r "$_epdc" ]; then
+        cat "$_epdc" > "$_fl_save" 2>/dev/null || true
+        echo "$_epdc" > "$_fl_path" 2>/dev/null || true
+    fi
+fi
+log "saved frontlight brightness: $(cat "$_fl_save" 2>/dev/null || echo unknown)"
 
 # Kill any stale return_monitor from a previous session before we start.
 if [ -r "$RETURN_MONITOR_PID_FILE" ]; then
