@@ -15,10 +15,10 @@ SPLASH_PID_FILE="/tmp/zenmtp_splash.pid"
 ZENMTP_RESTORE_FLAG="/tmp/zenmtp_restore_needed"
 ZENMTP_SETUP_DONE_FLAG="/tmp/zenmtp_setup_done"
 ZENMTP_MAIN_PID_FILE="/tmp/zenmtp_main.pid"
-UPSTART_WATCHER_CONF="/etc/upstart/zenmtp-watcher.conf"
-WATCHER_LOCK_FILE="/tmp/zenmtp_watcher.lock"
-WATCHER_SCRIPT="/mnt/us/.ZenMTP/zen_mtpd.sh"
-WATCHER_VERSION="13"
+UPSTART_DAEMON_CONF="/etc/upstart/zenmtp-daemon.conf"
+DAEMON_LOCK_FILE="/tmp/zenmtp_daemon.lock"
+DAEMON_SCRIPT="/mnt/us/.ZenMTP/zen_mtpd.sh"
+DAEMON_VERSION="14"
 GDIR="/sys/kernel/config/usb_gadget/mtpgadget"
 UDC_HW="$(ls /sys/class/udc/ 2>/dev/null | head -1)"
 
@@ -277,14 +277,14 @@ force_udc_reenumeration() {
 }
 
 # ============================================================
-# Restore watcher -- post-MTP restore: KOReader
+# Restore daemon -- post-MTP restore: KOReader
 # ============================================================
 
-ensure_watcher_upstart_installed() {
-    watcher_script="$WATCHER_SCRIPT"
-    desired_marker="# zenmtp-watcher v$WATCHER_VERSION path=$WATCHER_SCRIPT"
+ensure_daemon_upstart_installed() {
+    daemon_script="$DAEMON_SCRIPT"
+    desired_marker="# zenmtp-daemon v$DAEMON_VERSION path=$DAEMON_SCRIPT"
 
-    if [ -f "$UPSTART_WATCHER_CONF" ] && head -1 "$UPSTART_WATCHER_CONF" 2>/dev/null | grep -qF "$desired_marker"; then
+    if [ -f "$UPSTART_DAEMON_CONF" ] && head -1 "$UPSTART_DAEMON_CONF" 2>/dev/null | grep -qF "$desired_marker"; then
         return 0
     fi
 
@@ -293,7 +293,7 @@ ensure_watcher_upstart_installed() {
         return 1
     fi
 
-    log "installing upstart job at $UPSTART_WATCHER_CONF (mntroot rw)"
+    log "installing upstart job at $UPSTART_DAEMON_CONF (mntroot rw)"
     mntroot rw >/dev/null 2>&1
     rw_rc=$?
     if [ "$rw_rc" -ne 0 ]; then
@@ -301,9 +301,9 @@ ensure_watcher_upstart_installed() {
         return 1
     fi
 
-    cat > "$UPSTART_WATCHER_CONF" <<UPSTARTCONF
+    cat > "$UPSTART_DAEMON_CONF" <<UPSTARTCONF
 $desired_marker
-description "Zen MTP restore watcher"
+description "Zen MTP restore daemon"
 author "ZenKindleMTP"
 # marker: $desired_marker
 
@@ -312,11 +312,11 @@ start on zenmtp-restore
 task
 
 script
-    exec /bin/sh $watcher_script
+    exec /bin/sh $daemon_script
 end script
 UPSTARTCONF
     write_rc=$?
-    chmod 644 "$UPSTART_WATCHER_CONF" 2>/dev/null || true
+    chmod 644 "$UPSTART_DAEMON_CONF" 2>/dev/null || true
     mntroot ro >/dev/null 2>&1
 
     if [ "$write_rc" -ne 0 ]; then
@@ -327,22 +327,22 @@ UPSTARTCONF
     return 0
 }
 
-start_restore_watcher() {
-    watcher_script="$WATCHER_SCRIPT"
-    log "start_restore_watcher begin main_pid=$$ script=$watcher_script"
+start_restore_daemon() {
+    daemon_script="$DAEMON_SCRIPT"
+    log "start_restore_daemon begin main_pid=$$ script=$daemon_script"
 
-    if ensure_watcher_upstart_installed; then
+    if ensure_daemon_upstart_installed; then
         if initctl emit --no-wait zenmtp-restore >/dev/null 2>&1; then
-            log "restore watcher dispatched via upstart event zenmtp-restore"
+            log "restore daemon dispatched via upstart event zenmtp-restore"
             return 0
         fi
         log "initctl emit failed; falling back to double-fork"
     fi
 
-    ( setsid sh -c "nohup sh '$watcher_script' </dev/null >/dev/null 2>&1 &" ) &
+    ( setsid sh -c "nohup sh '$daemon_script' </dev/null >/dev/null 2>&1 &" ) &
     _wpid=$!
     wait "$_wpid" 2>/dev/null || true
-    log "restore watcher dispatched via double-fork (intermediate pid=$_wpid)"
+    log "restore daemon dispatched via double-fork (intermediate pid=$_wpid)"
 }
 
 # ============================================================
@@ -350,7 +350,7 @@ start_restore_watcher() {
 # ============================================================
 
 force_refresh
-log "ZenMTP v$WATCHER_VERSION main_script start pid=$$"
+log "ZenMTP v$DAEMON_VERSION main_script start pid=$$"
 
 # Clean up flags from previous incomplete session
 rm -f "$ZENMTP_SETUP_DONE_FLAG" 2>/dev/null || true
@@ -360,12 +360,12 @@ for _bl in /sys/class/backlight/*/brightness; do
     [ -r "$_bl" ] && cat "$_bl" > /tmp/zenmtp_fl_br 2>/dev/null && break
 done
 
-# --- Start restore watcher ---
+# --- Start restore daemon ---
 touch "$ZENMTP_RESTORE_FLAG" 2>/dev/null || true
 echo "$$" > "$ZENMTP_MAIN_PID_FILE" 2>/dev/null || true
 trap 'rm -f "$ZENMTP_MAIN_PID_FILE" 2>/dev/null || true' EXIT
 log "wrote restore flag + main_pid=$$"
-start_restore_watcher
+start_restore_daemon
 
 # --- Splash while MTP starts ---
 show_splash
@@ -402,7 +402,7 @@ fi
 force_udc_reenumeration || true
 wait_for_mtp_health 4 || true
 
-# Signal watcher that setup is complete
+# Signal daemon that setup is complete
 touch "$ZENMTP_SETUP_DONE_FLAG" 2>/dev/null || true
 log "wrote setup-done flag"
 
