@@ -56,8 +56,12 @@ local TARGET_DIR = "/mnt/us/documents/" .. PAYLOAD_DIR_NAME
 local TARGET_SCRIPT = TARGET_DIR .. "/ZenMTP.sh"
 local TARGET_IMAGE = TARGET_DIR .. "/zen.png"
 local TARGET_SIGNATURE_FILE = TARGET_DIR .. "/.zenmtp_payload_signature"
+local WATCHER_PAYLOAD_DIR_NAME = "ZenMTPWatcher"
+local WATCHER_TARGET_DIR = "/mnt/us/ZenMTPWatcher"
+local WATCHER_TARGET_SCRIPT = WATCHER_TARGET_DIR .. "/zenmtp_watcher.sh"
 local BUNDLED_SCRIPT_NAME = "ZenMTP.sh"
 local BUNDLED_IMAGE_NAME = "zen.png"
+local BUNDLED_WATCHER_NAME = "zenmtp_watcher.sh"
 local SETTINGS_FILE = DataStorage:getSettingsDir() .. "/zenmtp.lua"
 
 local install_error_notified = false
@@ -144,9 +148,13 @@ local function payloadInstalledCompletely()
     if lfs.attributes(TARGET_DIR, "mode") ~= "directory" then
         return false
     end
+    if lfs.attributes(WATCHER_TARGET_DIR, "mode") ~= "directory" then
+        return false
+    end
 
     return lfs.attributes(TARGET_SCRIPT, "mode") == "file"
         and lfs.attributes(TARGET_IMAGE, "mode") == "file"
+        and lfs.attributes(WATCHER_TARGET_SCRIPT, "mode") == "file"
 end
 
 local function stableDigest(data)
@@ -176,6 +184,8 @@ end
 local function bundledPayloadSignature(bundled_dir)
     local script_path = bundled_dir .. "/" .. BUNDLED_SCRIPT_NAME
     local image_path = bundled_dir .. "/" .. BUNDLED_IMAGE_NAME
+    local watcher_bundled_dir = bundled_dir:gsub("/" .. PAYLOAD_DIR_NAME .. "$", "/" .. WATCHER_PAYLOAD_DIR_NAME)
+    local watcher_path = watcher_bundled_dir .. "/" .. BUNDLED_WATCHER_NAME
 
     local script_digest = fileDigest(script_path)
     if not script_digest then
@@ -187,7 +197,12 @@ local function bundledPayloadSignature(bundled_dir)
         return nil, T(_("Cannot hash bundled payload file:\n%1"), image_path)
     end
 
-    return script_digest .. "|" .. image_digest
+    local watcher_digest = fileDigest(watcher_path)
+    if not watcher_digest then
+        return nil, T(_("Cannot hash bundled payload file:\n%1"), watcher_path)
+    end
+
+    return script_digest .. "|" .. image_digest .. "|" .. watcher_digest
 end
 
 local function readInstalledPayloadSignature()
@@ -291,7 +306,15 @@ function ZenMTP:ensurePayloadInstalled()
         return nil, copy_err or _("Failed to install Zen MTP payload.")
     end
 
+    -- Deploy watcher from its own payload dir
+    local watcher_bundled_dir = bundled_dir:gsub("/" .. PAYLOAD_DIR_NAME .. "$", "/" .. WATCHER_PAYLOAD_DIR_NAME)
+    local watcher_copied, watcher_copy_err = copyTree(watcher_bundled_dir, WATCHER_TARGET_DIR)
+    if not watcher_copied then
+        return nil, watcher_copy_err or _("Failed to install Zen MTP watcher payload.")
+    end
+
     ensureExecutable(TARGET_SCRIPT)
+    ensureExecutable(WATCHER_TARGET_SCRIPT)
 
     if not writeInstalledPayloadSignature(signature) then
         logger.warn("ZenMTP: failed to write payload signature marker:", TARGET_SIGNATURE_FILE)
