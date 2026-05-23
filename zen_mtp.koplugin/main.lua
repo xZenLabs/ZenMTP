@@ -56,12 +56,12 @@ local TARGET_DIR = "/mnt/us/documents/" .. PAYLOAD_DIR_NAME
 local TARGET_SCRIPT = TARGET_DIR .. "/ZenMTP.sh"
 local TARGET_IMAGE = TARGET_DIR .. "/zen.png"
 local TARGET_SIGNATURE_FILE = TARGET_DIR .. "/.zenmtp_payload_signature"
-local WATCHER_PAYLOAD_DIR_NAME = "ZenMTPWatcher"
-local WATCHER_TARGET_DIR = "/mnt/us/ZenMTPWatcher"
-local WATCHER_TARGET_SCRIPT = WATCHER_TARGET_DIR .. "/zenmtp_watcher.sh"
+local WATCHER_PAYLOAD_DIR_NAME = ".ZenMTP"
+local WATCHER_TARGET_DIR = "/mnt/us/.ZenMTP"
+local WATCHER_TARGET_SCRIPT = WATCHER_TARGET_DIR .. "/zen_mtpd.sh"
 local BUNDLED_SCRIPT_NAME = "ZenMTP.sh"
 local BUNDLED_IMAGE_NAME = "zen.png"
-local BUNDLED_WATCHER_NAME = "zenmtp_watcher.sh"
+local BUNDLED_WATCHER_NAME = "zen_mtpd.sh"
 local SETTINGS_FILE = DataStorage:getSettingsDir() .. "/zenmtp.lua"
 
 local install_error_notified = false

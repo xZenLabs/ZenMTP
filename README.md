@@ -1,55 +1,50 @@
-# ZenKindleMTP
+# ZenMTP
 
-A standalone scriptlet that disables USBNetwork and switches newer MediaTek Kindles (Scribe, 11th gen, etc.) into MTP file-transfer mode.
+ZenMTP is a tool to enter/exit `USB MTP` mode on newer Kindles. I have a Kindle scriptlet that you can run as a standalone tool. If you use KOReader, there is also an included KOReader plugin that installs the Kindle scriptlet for you and switches newer MediaTek Kindles (Scribe, 11th gen, etc.) into MTP file-transfer mode, then restores KOReader when the MTP session is disconnected.
 
-## How it works
+This allows you to trigger `USB MTP` mode on newer kindles without having to plug/unplug the device each time. Simply tap the ZenMTP button to trigger usb file transfer when a usb cable is already connected.
 
-On newer Kindles, the MTP gadget is managed by `tizen-mtp` via an upstart job. When USBNetwork is active it claims the USB gadget and blocks MTP. Simply stopping USBNetwork isn't enough — `tizen-mtp` must be restarted to reinitialize its FunctionFS descriptors.
+## Architecture
 
-`ZenMTP.sh`:
+Three components work together:
 
-1. Shows a splash screen via `eips`.
-2. Stops USBNetlite upstart jobs and removes the auto-start flag.
-3. Clears the USB gadget's UDC binding.
-4. Restarts the `mtp` upstart job so `tizen-mtp` reinitializes.
-5. Waits for readiness, then manually binds the UDC if needed.
+### 1. KOReader plugin (`zen_mtp.koplugin/main.lua`)
+- Registers a "Zen MTP" action in KOReader (gestures, menus)
+- On init: deploys payload files to the Kindle if missing or outdated (hash-verified)
+- On run: launches `ZenMTP.sh` in the background, then quits KOReader so the native Kindle MTP UI takes over
+- Monkey-patches `AutoSuspend._schedule_kindle` at require-time to guard against negative t1 delay crashes after KOReader relaunch
 
-After the script exits, the Kindle's native "connected to computer" screen takes over.
+### 2. Main script (`ZenMTP.sh`)
+- Deployed to `/mnt/us/documents/ZenMTP/ZenMTP.sh` (alongside `zen.png` splash)
+- Saves frontlight brightness, writes restore flag, launches the watcher, shows splash
+- Stops usbnet jobs, restarts the `mtp` upstart job, binds the USB gadget UDC
+- After healthy MTP is confirmed, writes a setup-done flag so the watcher knows MTP is fully ready
+
+### 3. Restore Daemon (`zen_mtpd.sh`)
+- Deployed to `/mnt/us/.ZenMTP/zen_mtpd.sh` (separate dir, outside documents/)
+- Launched by `ZenMTP.sh` via upstart event `zenmtp-restore` (with double-fork fallback)
+- Two-phase poll:
+  - **Phase 1** (up to 120s): waits for MTP to come online (tizen-mtp process + functionfs mount + UDC bound)
+  - **Phase 2** (up to 6h): heartbeat-polls MTP health every 2s; when MTP goes inactive for 4s, triggers restore
+- On restore: kills splash daemon, draws splash via `eips`, launches KOReader, restores frontlight brightness
+- Aborts if KOReader is already running (manual launch during MTP session)
+- Uses lockfile `/tmp/zenmtp_watcher.lock` to prevent duplicate instances
 
 ## Compatibility
 
-Newer MediaTek Kindles using `libcomposite`/`configfs` (2023+ ish). Not intended for older models using `g_ether` or `g_ffs`.
+Newer MediaTek Kindles using `libcomposite`/`configfs` USB gadget framework (2023+). Specifically using the Kindle's `mtp` upstart job and `tizen-mtp` binary. Not intended for older models using `g_ether` or `g_ffs`.
 
 ## Installation
 
-### KOReader plugin install (recommended)
+### KOReader plugin (recommended)
 
-1. Download the latest `ZenMTP-vX.X.zip` from [Releases](https://github.com/AnthonyGress/ZenKindleMTP/releases).
-2. Unzip it.
-3. Copy `zenmtp.koplugin` into your KOReader plugins directory.
-4. Enable `Zen MTP` in KOReader plugin settings.
+1. Copy `zen_mtp.koplugin` into KOReader's `plugins/` directory
+2. Restart KOReader or enable the plugin in plugin settings
+3. On first init, the payload is automatically installed to the Kindle
 
-On plugin init, `zenmtp.koplugin` will install `ZenMTP` to `/mnt/us/documents/ZenMTP` if it does not exist already.
+### Assign a gesture
 
-```
-/mnt/us/documents/ZenMTP/
-├── ZenMTP.sh
-└── zen.png
-```
-
-### Assign a gesture in KOReader
-
-1. Open KOReader Gestures settings.
-2. Pick a gesture and assign action `Zen MTP: switch to MTP`.
-3. Trigger that gesture to run the script.
-
-### Standalone script install (manual)
-
-If you do not use the plugin, copy `ZenMTP` directly to `/mnt/us/documents`:
-
-```
-/mnt/us/documents/ZenMTP/
-├── ZenMTP.sh
-└── zen.png
-```
+1. Open KOReader > Gestures manager
+2. Pick a gesture > Actions > "Zen MTP"
+3. Trigger the gesture to switch to MTP mode
 

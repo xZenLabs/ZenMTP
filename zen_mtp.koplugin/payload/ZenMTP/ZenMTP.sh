@@ -17,8 +17,8 @@ ZENMTP_SETUP_DONE_FLAG="/tmp/zenmtp_setup_done"
 ZENMTP_MAIN_PID_FILE="/tmp/zenmtp_main.pid"
 UPSTART_WATCHER_CONF="/etc/upstart/zenmtp-watcher.conf"
 WATCHER_LOCK_FILE="/tmp/zenmtp_watcher.lock"
-WATCHER_SCRIPT="/mnt/us/ZenMTPWatcher/zenmtp_watcher.sh"
-WATCHER_VERSION="12"
+WATCHER_SCRIPT="/mnt/us/.ZenMTP/zen_mtpd.sh"
+WATCHER_VERSION="13"
 GDIR="/sys/kernel/config/usb_gadget/mtpgadget"
 UDC_HW="$(ls /sys/class/udc/ 2>/dev/null | head -1)"
 
@@ -418,6 +418,6 @@ else
         "$EIPS_BIN" -c >/dev/null 2>/dev/null
         "$EIPS_BIN" -c >/dev/null 2>/dev/null
         eips 0 4 "MTP did not start." >/dev/null 2>&1
-        eips 0 5 "See /mnt/us/zenmtp.log" >/dev/null 2>&1
+        eips 0 5 "See /tmp/zenmtp.log" >/dev/null 2>&1
     fi
 fi

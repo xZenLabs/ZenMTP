@@ -1,5 +1,5 @@
 #!/bin/sh
-# zenmtp_watcher.sh -- restores KOReader + frontlight after MTP disconnects
+# zen_mtpd.sh -- restores KOReader + frontlight after MTP disconnects
 RESTORE_FLAG="/tmp/zenmtp_restore_needed"
 KOREADER_LAUNCH="/mnt/us/koreader/koreader.sh"
 LOG="/tmp/zenmtp.log"
