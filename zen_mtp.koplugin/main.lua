@@ -318,42 +318,37 @@ end
 
 function ZenMTP:init()
     os.remove("/tmp/zenmtp_restore_needed")
-
     os.execute("touch /tmp/zenmtp_splash.stop 2>/dev/null")
     os.execute("eips -c 2>/dev/null")
 
-    logger.info("ZenMTP: init")
+    logger.dbg("ZenMTP: init")
 
-    -- Populate widget state so KOReader knows the frontlight is on.
+    -- Init frontlight widget state and hook suspend so the sleep
+    -- screen turns off the light (powerd is dead from --framework_stop).
     UIManager:scheduleIn(3, function()
-        logger.info("ZenMTP: cb fired")
-        local ok1, pd = pcall(function() return Device:getPowerDevice() end)
-        logger.info("ZenMTP: cb pd_ok=", ok1, "pd=", pd and "yes" or "nil")
-        if not ok1 or not pd or not pd.setIntensity then
-            logger.warn("ZenMTP: cb no pd/setIntensity")
+        local ok, pd = pcall(function() return Device:getPowerDevice() end)
+        if not ok or not pd then
+            logger.warn("ZenMTP: cannot get PowerDevice")
             return
         end
-        logger.info("ZenMTP: cb reading settings")
-        local fl = nil
-        if G_reader_settings then
-            fl = G_reader_settings:readSetting("frontlight_intensity")
+        if not pd.setIntensity then
+            logger.warn("ZenMTP: PowerDevice has no setIntensity")
+            return
         end
-        fl = tonumber(fl) or 10
-        logger.info("ZenMTP: cb calling setIntensity(", fl, ")")
-        pcall(function() pd:setIntensity(fl) end)
-        logger.info("ZenMTP: cb setIntensity done")
+        local fl = tonumber(G_reader_settings and G_reader_settings:readSetting("frontlight_intensity")) or 10
+        pcall(pd.setIntensity, pd, fl)
+        logger.dbg("ZenMTP: fl widget init intensity=", fl)
 
         if pd.beforeSuspend and not pd._zenmtp_bs_wrapped then
             local _orig = pd.beforeSuspend
             pd.beforeSuspend = function(self, ...)
-                logger.info("ZenMTP: beforeSuspend, fl off via sysfs")
                 os.execute("for b in /sys/class/backlight/*/brightness; do [ -w \"$b\" ] && echo 0 > \"$b\" 2>/dev/null; done")
                 return _orig(self, ...)
             end
             pd._zenmtp_bs_wrapped = true
-            logger.info("ZenMTP: cb wrapped beforeSuspend")
+        else
+            logger.warn("ZenMTP: cannot wrap beforeSuspend")
         end
-        logger.info("ZenMTP: cb done")
     end)
 
     if not self.settings then
