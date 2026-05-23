@@ -3,8 +3,8 @@
 # Author: Anthony Gress
 # Icon: data:image/png;base64,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8tELUrvdnpycrPt12rVrV1JSkiHH/+OPP+Li4jIzM3Wlm64cDsd7770XExNj1ONEJpOpr68vLS0tJydH/Ws8rNOnT69cubKsrMyoUxsuIyNDe93Z2fnFF1+4v+/g4OCHH36oNefPn8/cqCu73a42Q0JCvDUSY/litDmnDn755Re1Mz09PTc315Djt7e3x8fH19XVub/LuXPnlixZYtQd3KysrE8++cTNjfv7+zMyMlpbWw05teHS0tL8/f215pgmE44ePfr7779rTavVajabDRybAB0dHbp7rzNnzvTWYIzli9G2devWqqoqtcc5dWDIz/358+eXLFmi/kaZTKa777579+7dNTU1bW1tzc3Nhw4dysnJ0V0IXL58+ZFHHjl79uwEB1BcXFxSUuJ8bTabExMTCwoKampqWltb29vbjxw5snXrVt2P75UrV3QzZVNHcHDw2rVrteaYCtx05WzDLprk41w/BS9YsMArIzGet6+IJ1tZWZkuwkJDQ426FeJwOHSLu4WFhV3tIaF//vnnpZdeslgs6vZLly4d60l199puuOEG54vFixfX1dUNu0tnZ6frInSnTp0a66kNdLV7bUNDQ4cPH1b733jjDXcO2N3drb0VJpMpMTFR+yfutTn19PTMnj1bPU5gYGB/f7+xQ/UW3/rU1tTUpFuM0PnUgVE1nPn5+d98843WvOOOO06cOJGcnDzsxtOnT9++ffvBgwfVB79ramrGdDvJVW9vr8lkWrp0aW1t7T333DPsNjNnzqysrLz99tvVzoMHD07kvJ6TmJg4jgK38vJy51vhpN6zg8lkGhwczMzMPHfunNq5fPlyPz8hVRM+FG02my05Obmnp0ft3Llzp1FTBz09Pfn5+VrT39+/oqJizpw5I++1atWqt99+W+3Jy8sbmtgaFeHh4eXl5TNmzBhhm+Dg4Oeff17taW5unshJPce1wK2xsXHUvXTlbFf7A+ObTp48mZCQsH//fl3/5s2bvTIeTxCS0KMaGBhIT0//9ddf1c60tDQD/18WFhaqt4E2bdp01113ubNjdnZ2UVHRiRMnnM36+vrjx49PZNXyV155ZeQlbpwefvjhp556SmueOXNm3Gf0tIyMDLXArbi4ePHixSNsf+rUqe+//15rrl+/XnY5W2dnZ0NDwwgbDA0NdXd3d3d3NzU11dbWfvvtt65/PtesWXPvvfd6cpiTy7vXw5PG9cGpmJgYY5dOVm9/WCyWCxcuuL9vRUWFOrbNmze7v6/uXltQUJCbCzENDg6q9bpRUVHun9RwI9xrc4qLi9P+adQCN936VM7fZI28e20Td+edd9rtdmMH6V0+cUFaVlamXiqaTKbQ0NCKigpdye5E2O12tTAtLi7u5ptvdn/3FStWqNePhw4dGvdIHnjgATc/oZjNZvUdGLUIzrvUZz9HLnAbGBhQy9kiIiLi4+M9O7hrXGRk5Jdffimmos1JfrT9/PPPWVlZao/FYikrKzN2+Ydjx46pj4WOfLnkyt/ff9GiRVqzvb1dV0jpvqtNHYxqkh9rHau0tDR1xnOEyYTq6mr1e6coZxuBn5+f1Wqtq6uLjIz09lgMJvxeW2dn57BTBw899JCxJ2pra1Obzc3Nbn7rmka3mMyZM2fuu+++cYzEnbts1yJngZv24ISzwC0sLMx1S8rZRmWxWBYtWpSUlLRp06ZRZ7quUZKjzeFwpKen65ZXXb9+vSemgTo7O9VmTU1NTU3NRA7Y0dExvmgb9bnRa5fVatWirb+/v6Sk5Nlnn9Vt09XV9dlnn2nNhIQEXemWSMuWLdu4caM7W4aEhISEhMyfP//GG2/09Ki8S3K0bdmy5ciRI2pPTExMYWGhJy5PdNE2cX/99df4dhR88ZWUlDR79mytFKuoqMg12vbv3//vv/9qTR8pZ5szZ05qaqq3RzG1iL3XVlpa+uabb6o9oaGhn376qYFTB6r+/v4pfkABpk2btmHDBq3Z2trqWuBWXFysvQ4KCqKczWfJ/NT2008/ZWdnqz0Wi2Xfvn1z58710Bl1D4RGRETcdtttEzmgWn8PjdVq3bVrl9bUFbi1tbX9+OOPWlM38wCfIjDabDbbunXr1IdsTCbTa6+9tnz5cs+dNDw8XG1mZmbqav1hiMjIyLi4OG2JlNLS0j179mhLb+qmTX3kahTDknZB6nA4UlNTdU8dpKambtmyxaPn1X1G+/vvvz16Ol+mBpbNZtMK3BwOh7bkien/EJzksWHqkBZtubm5x44dU3uioqKMWrBoBLrfopaWFo+ezpelpaWpNcnazbWvvvrq4sWLWj9f7+LjRF2QfvTRR2+99ZbaExIS8vnnn0/CPPe8efPCw8MvXbrkbP7www9XrlxRl/QYVXV1dVdXl/P1tGnT1q1bZ/woRQgKClqzZo1a4Hbp0qXw8HB1AkH3RD18kJxPbQ0NDU8++aTa4+mpA52EhATttc1m0z0WOrKenp5HH310/f/UO+VwpV6TOr+i1G63q4syJSYm3nrrrV4YGaYMIdFms9lSU1N1Uwc7duxYsWLFpI1BF6x5eXm68YygtLRU3dijMx4CJCYmqoW4RUVF+/bt6+vr03q4GoWEaOvv709JSdFNHaSkpEzyHOWDDz4YHR2tNU+ePPnMM88MubHymt1uf/XVV7Wm2Wx+/PHHPTJEKVwL3Hbu3Kk1dWuOwzdJiLbc3FzdU03R0dFFRUWTX5e/e/du9aTvv//+E088oX4BqKvu7u61a9eqi52uXr164cKFHhylCLrPZeoEAuVsMAmYRqitrd27d6+uMyoqaseOHUadYvv27Vrl1MhWrVqVnZ397rvvaj0lJSVHjx7dtm1bSkrKrFmz1I17eno+/vjjl19+Wc21gIAA3bc+Y1iRkZHx8fHqepMaytlgEhBtwz68eeDAAQNP8cILL7gZbSaTKT8/v6GhQV3y9MKFCxs3bnz66adjY2NvueWWm266qbe39+zZs42NjbolSUwmU0FBQVRUlGFDF81qtbpG24IFC9RvZYbPuuajbaqZMWNGVVXVY489Vltbq/YPDAzU19fX19dfbUez2bx3717d82EYgfNrpHVzNUwgwEnCvbapJjQ09Ouvv3799deDg4Pd3GXu3LmHDx+esl8GOjW5Pv1OORs0RJtHXHfddc8999zp06dzc3N1T87rxMbGvvPOOy0tLYavjukLdJ/RkpKSWFYATmZ3qhMwEYODgy0tLfX19b/99pvzK68CAgJCQkIWLlx4//33U1kKeALRBkAgLkgBCES0ARCIaAMgENEGQCCiDYBARBsAgYg2AAIRbQAEItoACES0ARCIaAMgENEGQCCiDYBARBsAgYg2AAIRbQAEItoACES0ARCIaAMgENEGQCCiDYBARBsAgYg2AAIRbQAEItoACES0ARCIaAMgENEGQCCiDYBARBsAgYg2AAIRbQAEItoACES0ARCIaAMgENEGQCCiDYBARBsAgYg2AAIRbQAEItoACES0ARCIaAMgENEGQCCiDYBARBsAgYg2AAIRbQAEItoACES0ARCIaAMgENEGQCCiDYBARBsAgYg2AAIRbQAEItoACES0ARCIaAMgENEGQCCiDYBARBsAgYg2AAIRbQAEItoACES0ARCIaAMgENEGQCCiDYBARBsAgYg2AAIRbQAEItoACES0ARCIaAMgENEGQCCiDYBARBsAgYg2AAIRbQAEItoACES0ARCIaAMgENEGQCCiDYBARBsAgYg2AAIRbQAEItoACES0ARCIaAMgENEGQCCiDYBARBsAgYg2AAIRbQAEItoACES0ARCIaAMgENEGQCCiDYBARBsAgYg2AAIRbQAEItoACES0ARCIaAMgENEGQCCiDYBARBsAgYg2AAIRbQAEItoACES0ARCIaAMgENEGQCCiDYBARBsAgYg2AAIRbQAEItoACES0ARCIaAMgENEGQCCiDYBARBsAgYg2AAIRbQAEItoACES0ARCIaAMgENEGQCCiDYBARBsAgYg2AAIRbQAEItoACES0ARCIaAMgENEGQCCiDYBARBsAgYg2AAIRbQAE+g8CbD6S38BygwAAAABJRU5ErkJggg==
 # Created: 2026-05-14
-# Version: 1.3
-# Description: Switches Kindle to MTP mode for file transfer
+# Version: 1.4
+# Description: Switches Kindle to MTP mode for file transfer and returns to koreader if applicable
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SPLASH="$SCRIPT_DIR/zen.png"
@@ -12,17 +12,18 @@ LOG_FILE="/tmp/zenmtp.log"
 EIPS_BIN="$(command -v eips 2>/dev/null || true)"
 SPLASH_STOP_FILE="/tmp/zenmtp_splash.stop"
 SPLASH_PID_FILE="/tmp/zenmtp_splash.pid"
-RETURN_MONITOR_PID_FILE="/tmp/zenmtp_return.pid"
-RETURN_MONITOR_SCRIPT="/tmp/zenmtp_return_monitor.sh"
-KOREADER_LAUNCH_SCRIPT="/mnt/us/koreader/koreader.sh"
 ZENMTP_RESTORE_FLAG="/tmp/zenmtp_restore_needed"
 ZENMTP_SETUP_DONE_FLAG="/tmp/zenmtp_setup_done"
+ZENMTP_MAIN_PID_FILE="/tmp/zenmtp_main.pid"
 UPSTART_WATCHER_CONF="/etc/upstart/zenmtp-watcher.conf"
 WATCHER_LOCK_FILE="/tmp/zenmtp_watcher.lock"
-ZENMTP_MAIN_PID_FILE="/tmp/zenmtp_main.pid"
-WATCHER_VERSION="8"
+WATCHER_VERSION="11"
 GDIR="/sys/kernel/config/usb_gadget/mtpgadget"
 UDC_HW="$(ls /sys/class/udc/ 2>/dev/null | head -1)"
+
+# ============================================================
+# Logging
+# ============================================================
 
 log() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') $*" >> "$LOG_FILE"
@@ -62,54 +63,14 @@ wait_for_job_state() {
             log "wait_for_job_state $job_name reached running at ${elapsed}s"
             return 0
         fi
-
         if [ "$want_state" = "stopped" ] && ! job_is_running "$job_name"; then
             log "wait_for_job_state $job_name reached stopped at ${elapsed}s"
             return 0
         fi
-
         sleep 1
         elapsed=$((elapsed + 1))
     done
-
     log "wait_for_job_state timeout job=$job_name want=$want_state timeout=${timeout_secs}s"
-    return 1
-}
-
-wait_for_udc_bound() {
-    timeout_secs="$1"
-    sleep "$timeout_secs"
-    log "wait_for_udc_bound skipped active polling for ${timeout_secs}s"
-    return 0
-}
-
-wait_for_mtp_runtime_ready() {
-    timeout_secs="$1"
-    elapsed=0
-    while [ "$elapsed" -lt "$timeout_secs" ]; do
-        if mtp_process_running && functionfs_ready; then
-            log "wait_for_mtp_runtime_ready reached ready at ${elapsed}s"
-            return 0
-        fi
-        sleep 1
-        elapsed=$((elapsed + 1))
-    done
-    log "wait_for_mtp_runtime_ready timeout after ${timeout_secs}s"
-    return 1
-}
-
-wait_for_mtp_health() {
-    timeout_secs="$1"
-    elapsed=0
-    while [ "$elapsed" -lt "$timeout_secs" ]; do
-        if mtp_looks_healthy; then
-            log "wait_for_mtp_health reached healthy at ${elapsed}s"
-            return 0
-        fi
-        sleep 1
-        elapsed=$((elapsed + 1))
-    done
-    log "wait_for_mtp_health timeout after ${timeout_secs}s"
     return 1
 }
 
@@ -139,6 +100,10 @@ run_upstart_cmd_with_timeout() {
     return "$rc"
 }
 
+# ============================================================
+# Diagnostics
+# ============================================================
+
 debug_snapshot() {
     log "debug snapshot begin"
     log_cmd "pwd" pwd
@@ -158,91 +123,196 @@ debug_snapshot() {
     log "debug snapshot end"
 }
 
-koreader_pid_list() {
-    for proc_dir in /proc/[0-9]*; do
-        pid="${proc_dir##*/}"
-        [ "$pid" = "$$" ] && continue
+# ============================================================
+# Display helpers
+# ============================================================
 
-        cmdline=""
-        cwd=""
-        exe=""
-
-        [ -r "$proc_dir/cmdline" ] && cmdline="$(tr '\000' ' ' < "$proc_dir/cmdline" 2>/dev/null)"
-        [ -L "$proc_dir/cwd" ] && cwd="$(readlink "$proc_dir/cwd" 2>/dev/null)"
-        [ -L "$proc_dir/exe" ] && exe="$(readlink "$proc_dir/exe" 2>/dev/null)"
-
-        case "$cmdline $cwd $exe" in
-            *"/koreader/"*|*"koreader.lua"*|*"koreader.sh"*|*" reader.lua"*|*"/mnt/us/koreader"*)
-                echo "$pid"
-                ;;
-        esac
-    done
+force_refresh() {
+    eips -c > /dev/null 2>&1
+    eips -c > /dev/null 2>&1
+    sleep 1
 }
 
-luajit_pid_list() {
-    for proc_dir in /proc/[0-9]*; do
-        pid="${proc_dir##*/}"
-        [ "$pid" = "$$" ] && continue
-
-        comm=""
-        exe=""
-        cwd=""
-
-        [ -r "$proc_dir/comm" ] && comm="$(cat "$proc_dir/comm" 2>/dev/null)"
-        [ -L "$proc_dir/exe" ] && exe="$(readlink "$proc_dir/exe" 2>/dev/null)"
-        [ -L "$proc_dir/cwd" ] && cwd="$(readlink "$proc_dir/cwd" 2>/dev/null)"
-
-        case "$comm $exe $cwd" in
-            *"luajit"*"/koreader"*|*"luajit"*"/mnt/us/koreader"*|*"/koreader/luajit"*|*"/koreader"*)
-                echo "$pid"
-                ;;
-        esac
-    done
+show_splash() {
+    [ -z "$EIPS_BIN" ] && return
+    if [ -f "$SPLASH" ]; then
+        "$EIPS_BIN" -g "$SPLASH" > /dev/null 2>&1
+    else
+        "$EIPS_BIN" 0 0 "Zen MTP" > /dev/null 2>&1
+    fi
 }
 
-# Write the watcher script that performs the post-MTP KOReader restore.
-# Self-contained: discovers parent state via process scan + flag files,
-# no $MAIN_PID needed (so it works when launched via upstart event).
+stop_splash_daemon() {
+    touch "$SPLASH_STOP_FILE" >/dev/null 2>/dev/null || true
+    if [ -r "$SPLASH_PID_FILE" ]; then
+        splash_pid="$(cat "$SPLASH_PID_FILE" 2>/dev/null)"
+        if [ -n "$splash_pid" ] && kill -0 "$splash_pid" 2>/dev/null; then
+            kill "$splash_pid" >/dev/null 2>/dev/null || true
+        fi
+    fi
+    rm -f "$SPLASH_PID_FILE" >/dev/null 2>/dev/null || true
+}
+
+start_splash_daemon() {
+    duration_secs="$1"
+
+    if [ -z "$EIPS_BIN" ]; then
+        log "start_splash_daemon skipped: eips not found"
+        return
+    fi
+
+    stop_splash_daemon
+    rm -f "$SPLASH_STOP_FILE" >/dev/null 2>/dev/null || true
+
+    (
+        echo "$$" > "$SPLASH_PID_FILE" 2>/dev/null || true
+        _i=0
+        while [ "$_i" -lt "$duration_secs" ]; do
+            if [ -f "$SPLASH_STOP_FILE" ]; then
+                break
+            fi
+            if [ -f "$SPLASH" ]; then
+                "$EIPS_BIN" -g "$SPLASH" >/dev/null 2>/dev/null
+            else
+                "$EIPS_BIN" 0 0 "Zen MTP" >/dev/null 2>/dev/null
+            fi
+            sleep 1
+            _i=$((_i + 1))
+        done
+        rm -f "$SPLASH_PID_FILE" >/dev/null 2>/dev/null || true
+    ) >/dev/null 2>/dev/null &
+    log "start_splash_daemon pid=$! duration=${duration_secs}s"
+}
+
+# ============================================================
+# MTP helpers
+# ============================================================
+
+mtp_process_running() {
+    ps 2>/dev/null | grep -q "tizen-mtp"
+}
+
+functionfs_ready() {
+    mount 2>/dev/null | grep -q " on /dev/usb-ffs/mtp type functionfs"
+}
+
+mtp_looks_healthy() {
+    mtp_process_running && functionfs_ready
+}
+
+wait_for_mtp_runtime_ready() {
+    timeout_secs="$1"
+    elapsed=0
+    while [ "$elapsed" -lt "$timeout_secs" ]; do
+        if mtp_looks_healthy; then
+            log "wait_for_mtp_runtime_ready reached ready at ${elapsed}s"
+            return 0
+        fi
+        sleep 1
+        elapsed=$((elapsed + 1))
+    done
+    log "wait_for_mtp_runtime_ready timeout after ${timeout_secs}s"
+    return 1
+}
+
+wait_for_mtp_health() {
+    timeout_secs="$1"
+    elapsed=0
+    while [ "$elapsed" -lt "$timeout_secs" ]; do
+        if mtp_looks_healthy; then
+            log "wait_for_mtp_health reached healthy at ${elapsed}s"
+            return 0
+        fi
+        sleep 1
+        elapsed=$((elapsed + 1))
+    done
+    log "wait_for_mtp_health timeout after ${timeout_secs}s"
+    return 1
+}
+
+restart_mtp() {
+    log "restart_mtp begin"
+    log_job_status "mtp"
+
+    run_upstart_cmd_with_timeout "stop mtp" "stop mtp" 8
+    wait_for_job_state "mtp" "stopped" 8 || true
+
+    run_upstart_cmd_with_timeout "start mtp" "start mtp" 10
+    wait_for_job_state "mtp" "running" 10 || true
+    wait_for_mtp_runtime_ready 4 || true
+
+    log_job_status "mtp"
+    log_cmd "mtp process check" sh -c "ps 2>/dev/null | grep -E 'tizen-mtp|/usr/sbin/mtp' | grep -v grep || true"
+    log "restart_mtp end"
+}
+
+bind_udc_if_needed() {
+    log "bind_udc_if_needed begin"
+    if [ -n "$UDC_HW" ]; then
+        log "bind_udc_if_needed fire-and-forget bind to $UDC_HW"
+        ( echo "$UDC_HW" > "$GDIR/UDC" 2>/dev/null ) &
+        log "bind_udc_if_needed dispatched pid=$!"
+    else
+        log "bind_udc_if_needed skipped: no UDC_HW"
+    fi
+    log "bind_udc_if_needed end"
+}
+
+force_udc_reenumeration() {
+    log "force_udc_reenumeration begin"
+    if [ -z "$UDC_HW" ]; then
+        log "force_udc_reenumeration skipped: no UDC_HW detected"
+        return 1
+    fi
+
+    echo "" > "$GDIR/UDC" 2>/dev/null
+    log "force_reenum cleared UDC rc=$?"
+    sleep 1
+    log "force_reenum fire-and-forget bind to $UDC_HW"
+    ( echo "$UDC_HW" > "$GDIR/UDC" 2>/dev/null ) &
+    log "force_reenum dispatched bind pid=$!"
+    log "force_udc_reenumeration end"
+    return 0
+}
+
+# ============================================================
+# Restore watcher -- post-MTP restore: KOReader
+# ============================================================
+
 write_watcher_script() {
     watcher_script="$SCRIPT_DIR/zenmtp_watcher.sh"
-    cat > "$watcher_script" <<ZENWATCHER
+    cat > "$watcher_script" <<'ZENWATCHER'
 #!/bin/sh
-# zenmtp_watcher.sh - v$WATCHER_VERSION
-RESTORE_FLAG="$ZENMTP_RESTORE_FLAG"
-KOREADER_LAUNCH="$KOREADER_LAUNCH_SCRIPT"
-LOG="$LOG_FILE"
-SPLASH="$SPLASH"
-EIPS_BIN="$EIPS_BIN"
-RETURN_PID_FILE="$RETURN_MONITOR_PID_FILE"
-LOCK="$WATCHER_LOCK_FILE"
-MAIN_PID_FILE="$ZENMTP_MAIN_PID_FILE"
-SETUP_DONE_FLAG="$ZENMTP_SETUP_DONE_FLAG"
-GDIR="$GDIR"
+# zenmtp_watcher.sh -- restores KOReader + frontlight after MTP disconnects
+RESTORE_FLAG="/tmp/zenmtp_restore_needed"
+KOREADER_LAUNCH="/mnt/us/koreader/koreader.sh"
+LOG="/tmp/zenmtp.log"
+WATCHER_DIR="$(cd "$(dirname "$0")" && pwd)"
+MAIN_PID_FILE="/tmp/zenmtp_main.pid"
+SETUP_DONE_FLAG="/tmp/zenmtp_setup_done"
+GDIR="/sys/kernel/config/usb_gadget/mtpgadget"
+LOCK="/tmp/zenmtp_watcher.lock"
 
-log_w() { echo "\$(date '+%Y-%m-%d %H:%M:%S') restore-watcher \$*" >> "\$LOG"; }
+log_w() { echo "$(date '+%Y-%m-%d %H:%M:%S') restore-watcher $*" >> "$LOG"; }
 
-# Single-instance guard: refuse to run if another watcher is already alive.
-if [ -r "\$LOCK" ]; then
-    _other="\$(cat "\$LOCK" 2>/dev/null)"
-    if [ -n "\$_other" ] && kill -0 "\$_other" 2>/dev/null; then
-        log_w "another watcher already running pid=\$_other; exiting"
+if [ -r "$LOCK" ]; then
+    _other="$(cat "$LOCK" 2>/dev/null)"
+    if [ -n "$_other" ] && kill -0 "$_other" 2>/dev/null; then
+        log_w "another watcher already running pid=$_other; exiting"
         exit 0
     fi
 fi
-echo "\$\$" > "\$LOCK" 2>/dev/null || true
-trap 'rm -f "\$LOCK" 2>/dev/null || true' EXIT
-# Survive framework/USB-stack restarts that may broadcast signals
+echo "$$" > "$LOCK" 2>/dev/null || true
+trap 'rm -f "$LOCK" 2>/dev/null || true' EXIT
 trap '' TERM HUP INT QUIT USR1 USR2
 
-_ppid="\$(cut -d' ' -f4 /proc/\$\$/stat 2>/dev/null)"
-log_w "started v$WATCHER_VERSION pid=\$\$ ppid=\$_ppid"
+_ppid="$(cut -d' ' -f4 /proc/$$/stat 2>/dev/null)"
+log_w "started pid=$$ ppid=$_ppid"
 
 zenmtp_running() {
-    # PID file is written by ZenMTP.sh at startup; basename-only ps output on
-    # busybox makes regex matching unreliable, so trust the pid file instead.
-    if [ -r "\$MAIN_PID_FILE" ]; then
-        _mpid="\$(cat "\$MAIN_PID_FILE" 2>/dev/null)"
-        if [ -n "\$_mpid" ] && kill -0 "\$_mpid" 2>/dev/null; then
+    if [ -r "$MAIN_PID_FILE" ]; then
+        _mpid="$(cat "$MAIN_PID_FILE" 2>/dev/null)"
+        if [ -n "$_mpid" ] && kill -0 "$_mpid" 2>/dev/null; then
             return 0
         fi
     fi
@@ -250,261 +320,180 @@ zenmtp_running() {
 }
 
 mtp_is_active() {
-    # Require tizen-mtp process AND functionfs mount.
-    # After setup completes (setup-done flag present), also require UDC bound.
     _mtp_found=0
     for _p in /proc/[0-9]*; do
-        [ -r "\$_p/comm" ] || continue
-        case "\$(cat "\$_p/comm" 2>/dev/null)" in
+        [ -r "$_p/comm" ] || continue
+        case "$(cat "$_p/comm" 2>/dev/null)" in
             tizen-mtp) _mtp_found=1; break ;;
         esac
     done
-    [ "\$_mtp_found" -eq 0 ] && return 1
+    [ "$_mtp_found" -eq 0 ] && return 1
     mount 2>/dev/null | grep -q " on /dev/usb-ffs/mtp type functionfs" || return 1
-    if [ -f "\$SETUP_DONE_FLAG" ]; then
-        [ -n "\$GDIR" ] && [ -r "\$GDIR/UDC" ] && [ -n "\$(cat "\$GDIR/UDC" 2>/dev/null)" ] || return 1
+    if [ -f "$SETUP_DONE_FLAG" ]; then
+        [ -n "$GDIR" ] && [ -r "$GDIR/UDC" ] && [ -n "$(cat "$GDIR/UDC" 2>/dev/null)" ] || return 1
     fi
     return 0
 }
 
-# Log raw MTP state (tizen-mtp presence + UDC state string) for diagnostics.
 log_mtp_state() {
     _lm=0
     for _lp in /proc/[0-9]*; do
-        [ -r "\$_lp/comm" ] || continue
-        case "\$(cat "\$_lp/comm" 2>/dev/null)" in
+        [ -r "$_lp/comm" ] || continue
+        case "$(cat "$_lp/comm" 2>/dev/null)" in
             tizen-mtp) _lm=1; break ;;
         esac
     done
-    _lu="\$(ls /sys/class/udc/ 2>/dev/null | head -1)"
+    _lu="$(ls /sys/class/udc/ 2>/dev/null | head -1)"
     _ls="none"
-    [ -n "\$_lu" ] && _ls="\$(cat "/sys/class/udc/\$_lu/state" 2>/dev/null || echo read_err)"
-    _flag=N; [ -f "\$RESTORE_FLAG" ] && _flag=Y
-    log_w "mtp_state tizen_mtp=\${_lm} udc=\${_lu:-none} udc_state=\${_ls} flag=\${_flag}"
-}
-
-redraw_splash() {
-    [ -z "\$EIPS_BIN" ] && return 0
-    if [ -f "\$SPLASH" ]; then
-        "\$EIPS_BIN" -g "\$SPLASH" >/dev/null 2>/dev/null || true
-    else
-        "\$EIPS_BIN" 0 0 "Zen MTP" >/dev/null 2>/dev/null || true
-    fi
-}
-
-return_monitor_alive() {
-    if [ -r "\$RETURN_PID_FILE" ]; then
-        _rpid="\$(cat "\$RETURN_PID_FILE" 2>/dev/null)"
-        if [ -n "\$_rpid" ] && kill -0 "\$_rpid" 2>/dev/null; then
-            return 0
-        fi
-    fi
-    return 1
+    [ -n "$_lu" ] && _ls="$(cat "/sys/class/udc/$_lu/state" 2>/dev/null || echo read_err)"
+    _flag=N; [ -f "$RESTORE_FLAG" ] && _flag=Y
+    log_w "mtp_state tizen_mtp=${_lm} udc=${_lu:-none} udc_state=${_ls} flag=${_flag}"
 }
 
 koreader_running() {
-    ps 2>/dev/null | grep -E 'koreader|reader\\.lua|luajit' | grep -v grep | grep -q .
+    ps 2>/dev/null | grep -E 'koreader|reader\.lua|luajit' | grep -v grep | grep -q .
 }
 
-# Phase 1: wait up to 120s for ZenMTP.sh to bring MTP fully online.
-# This avoids racing ZenMTP.sh's setup (which takes ~10-30s).
+# --- Phase 1: wait for MTP to come online (up to 120s) ---
 _t=0
 seen_active=0
-while [ "\$_t" -lt 120 ]; do
-    if [ ! -f "\$RESTORE_FLAG" ]; then
-        log_w "restore flag cleared during startup wait at \${_t}s; exiting"
+while [ "$_t" -lt 120 ]; do
+    if [ ! -f "$RESTORE_FLAG" ]; then
+        log_w "restore flag cleared during startup wait at ${_t}s; exiting"
         exit 0
     fi
-    if [ "\$_t" -eq 0 ] || [ \$((_t % 20)) -eq 0 ]; then log_mtp_state; fi
+    if [ "$_t" -eq 0 ] || [ $((_t % 20)) -eq 0 ]; then log_mtp_state; fi
     if mtp_is_active; then
         seen_active=1
-        log_w "MTP active detected at \${_t}s; entering session watch"
+        log_w "MTP active detected at ${_t}s; entering session watch"
         break
     fi
     sleep 2
-    _t=\$((_t + 2))
+    _t=$((_t + 2))
 done
 
-if [ "\$seen_active" -eq 0 ]; then
+if [ "$seen_active" -eq 0 ]; then
     log_mtp_state
-    log_w "MTP never reached active within 120s; restore flag left intact for ZenMTP.sh fallback; exiting"
+    log_w "MTP never reached active within 120s; exiting"
     exit 0
 fi
 
 log_mtp_state
 log_w "phase2 begin"
 
-# Phase 2: poll MTP state. Fire restore once tizen-mtp + functionfs
-# (and UDC binding after setup-done) have been absent for 6s sustained.
+# --- Phase 2: poll until MTP goes inactive (up to 6h), then restore ---
 _t=0
 _hb=0
-_diag=0
-_splash_drawn=0
 inactive_streak=0
-_rm_seen=0
-_rm_dead_at=-1
-while [ "\$_t" -lt 21600 ]; do
-    if [ ! -f "\$RESTORE_FLAG" ]; then
-        log_w "restore flag cleared mid-session at \${_t}s; exiting"
+while [ "$_t" -lt 21600 ]; do
+    if [ ! -f "$RESTORE_FLAG" ]; then
+        log_w "restore flag cleared mid-session at ${_t}s; exiting"
         exit 0
     fi
     _mtp_now=0
     if mtp_is_active; then
         _mtp_now=1
         inactive_streak=0
-        _splash_drawn=0
     else
-        inactive_streak=\$((inactive_streak + 2))
-        log_w "phase2 inactive streak=\${inactive_streak}s elapsed=\${_t}s"
-        # Draw splash immediately at first sign of inactivity so there's no blank gap.
-        # Only after setup is done AND we're well past the re-enumeration window.
-        if [ "\$_splash_drawn" -eq 0 ] && [ -f "\$SETUP_DONE_FLAG" ] && [ "\$_t" -ge 20 ]; then
-            _splash_drawn=1
-            if [ -n "\$EIPS_BIN" ] && [ -f "\$SPLASH" ]; then
-                "\$EIPS_BIN" -g "\$SPLASH" >/dev/null 2>/dev/null || true
-            elif [ -n "\$EIPS_BIN" ]; then
-                "\$EIPS_BIN" 0 0 "Zen MTP" >/dev/null 2>/dev/null || true
-            fi
-        fi
-        if [ "\$inactive_streak" -ge 6 ]; then
+        inactive_streak=$((inactive_streak + 2))
+        if [ "$inactive_streak" -ge 4 ]; then
             log_mtp_state
-            log_w "MTP inactive for \${inactive_streak}s at elapsed=\${_t}s; triggering restore"
+            log_w "MTP inactive for ${inactive_streak}s at elapsed=${_t}s; triggering restore"
             break
         fi
-    fi
-    # Return monitor liveness: if RM dies unexpectedly with flag still set,
-    # take over restore after a 30s grace period.
-    if return_monitor_alive; then
-        _rm_seen=1
-    elif [ "\$_rm_seen" -eq 1 ] && [ "\$_rm_dead_at" -lt 0 ]; then
-        _rm_dead_at="\$_t"
-        log_mtp_state
-        log_w "return monitor died at \${_t}s; 30s grace before watcher takeover"
-    fi
-    if [ "\$_rm_dead_at" -ge 0 ] && [ \$((_t - _rm_dead_at)) -ge 30 ]; then
-        if [ -f "\$RESTORE_FLAG" ] && ! koreader_running; then
-            log_mtp_state
-            log_w "RM dead 30s; restore still needed at \${_t}s; watcher taking over"
-            break
-        fi
-        log_w "RM dead 30s; no restore needed; exiting"
-        exit 0
     fi
     sleep 2
-    _t=\$((_t + 2))
-    _hb=\$((_hb + 2))
-    _diag=\$((_diag + 2))
-    if [ "\$_diag" -ge 10 ]; then
-        log_w "phase2 tick t=\${_t}s mtp_active=\${_mtp_now} inactive=\${inactive_streak}s rm_seen=\${_rm_seen} rm_dead=\${_rm_dead_at}"
-        _diag=0
-    fi
-    if [ "\$_hb" -ge 30 ]; then
+    _t=$((_t + 2))
+    _hb=$((_hb + 2))
+    if [ "$_hb" -ge 30 ]; then
         log_mtp_state
-        log_w "heartbeat alive at \${_t}s inactive_streak=\${inactive_streak}"
+        log_w "heartbeat alive at ${_t}s inactive_streak=${inactive_streak}"
+        # If KOReader is running (e.g. launched manually during MTP), abort.
+        if koreader_running; then
+            log_w "koreader detected running at heartbeat; clearing flag and exiting"
+            rm -f "$RESTORE_FLAG" 2>/dev/null || true
+            exit 0
+        fi
         _hb=0
     fi
 done
 
-if [ "\$_t" -ge 21600 ]; then log_w "timeout 6h; exiting"; exit 0; fi
+if [ "$_t" -ge 21600 ]; then log_w "timeout 6h; exiting"; exit 0; fi
 
-# Show splash immediately — no blank screen gap.
-if [ -n "\$EIPS_BIN" ] && [ -f "\$SPLASH" ]; then
-    "\$EIPS_BIN" -g "\$SPLASH" >/dev/null 2>/dev/null || true
-elif [ -n "\$EIPS_BIN" ]; then
-    "\$EIPS_BIN" 0 0 "Zen MTP" >/dev/null 2>/dev/null || true
-fi
-
-# Kill orphaned splash daemon - it outlives ZenMTP.sh and overwrites the display.
+# Kill orphaned splash daemon before anything else
 touch "/tmp/zenmtp_splash.stop" 2>/dev/null || true
 if [ -r "/tmp/zenmtp_splash.pid" ]; then
-    _spid="\$(cat "/tmp/zenmtp_splash.pid" 2>/dev/null)"
-    if [ -n "\$_spid" ] && kill -0 "\$_spid" 2>/dev/null; then
-        kill "\$_spid" 2>/dev/null || true
-        log_w "killed orphaned splash daemon pid=\$_spid"
+    _spid="$(cat "/tmp/zenmtp_splash.pid" 2>/dev/null)"
+    if [ -n "$_spid" ] && kill -0 "$_spid" 2>/dev/null; then
+        kill "$_spid" 2>/dev/null || true
+        log_w "killed orphaned splash daemon pid=$_spid"
     fi
 fi
 rm -f "/tmp/zenmtp_splash.pid" 2>/dev/null || true
 
-# If KOReader is somehow already back, do nothing.
+# Draw splash once so it covers the gap between MTP disconnect and
+# KOReader startup. E-ink retains it until KOReader draws its UI.
+# Don't clear eips — that would flash a blank screen or let the
+# framework homescreen show through.
+if [ -f "$WATCHER_DIR/zen.png" ] && command -v eips >/dev/null 2>&1; then
+    eips -g "$WATCHER_DIR/zen.png" 2>/dev/null || true
+fi
+
+# If KOReader is already running, don't interfere — clear flag and exit.
 if koreader_running; then
     log_w "koreader already running; clearing flag and exiting"
-    rm -f "\$RESTORE_FLAG" 2>/dev/null || true
+    rm -f "$RESTORE_FLAG" 2>/dev/null || true
     exit 0
 fi
 
-rm -f "\$RESTORE_FLAG" 2>/dev/null || true
+rm -f "$RESTORE_FLAG" 2>/dev/null || true
 
-# Helper: restore frontlight from saved value.
-_restore_fl() {
-    if [ -r "/tmp/zenmtp_frontlight" ]; then
-        _br="\$(cat /tmp/zenmtp_frontlight 2>/dev/null)"
-        if [ -n "\$_br" ] && [ "\$_br" -gt 0 ] 2>/dev/null; then
-            # Use the exact saved path if we have one.
-            if [ -r "/tmp/zenmtp_frontlight_path" ]; then
-                _blpath="\$(cat /tmp/zenmtp_frontlight_path 2>/dev/null)"
-                [ -n "\$_blpath" ] && [ -w "\$_blpath" ] && echo "\$_br" > "\$_blpath" 2>/dev/null || true
-            fi
-            # Also try lipc in case framework is still alive.
-            if command -v lipc-set-prop >/dev/null 2>&1; then
-                lipc-set-prop com.lab126.powerd flEnable 1 >/dev/null 2>/dev/null || true
-                lipc-set-prop com.lab126.powerd flIntensity "\$_br" >/dev/null 2>/dev/null || true
-            fi
-            # Fallback: brute-force all known backlight paths.
-            for _bl in /sys/class/backlight/*/brightness; do
-                [ -w "\$_bl" ] && echo "\$_br" > "\$_bl" 2>/dev/null || true
-            done
-            _epdc="/sys/devices/platform/mxc_epdc_fb/graphics/fb0/epdc_brightness"
-            [ -w "\$_epdc" ] && echo "\$_br" > "\$_epdc" 2>/dev/null || true
+if [ -f "$KOREADER_LAUNCH" ]; then
+    nohup sh "$KOREADER_LAUNCH" --kual --framework_stop </dev/null >/dev/null 2>&1 &
+    _kpid=$!
+    log_w "KOReader launched pid=$_kpid"
+
+    _kr_wait=0
+    _kr_ok=0
+    while [ "$_kr_wait" -lt 60 ]; do
+        if koreader_running; then
+            _kr_ok=1
+            break
         fi
+        if [ -n "$_kpid" ] && ! kill -0 "$_kpid" 2>/dev/null; then
+            log_w "KOReader launch process $_kpid died at ${_kr_wait}s"
+            break
+        fi
+        sleep 2
+        _kr_wait=$((_kr_wait + 2))
+    done
+
+    if [ "$_kr_ok" -eq 0 ]; then
+        log_w "KOReader failed to start within ${_kr_wait}s; restoring Kindle UI"
+        eips -c 2>/dev/null || true
+        eips -c 2>/dev/null || true
+        start lab126_gui >/dev/null 2>/dev/null || true
+        exit 1
     fi
-}
 
-log_w "stopping UI jobs"
+    log_w "KOReader running at ${_kr_wait}s"
 
-# Restore frontlight NOW, before stopping framework — lipc/powerd must
-# still be running for the flEnable/flIntensity commands to take effect.
-_restore_fl 2>/dev/null || true
-
-for job_name in appmgrd lab126_gui framework; do
-    if initctl status "\$job_name" 2>/dev/null | grep -q "start/running"; then
-        stop "\$job_name" >/dev/null 2>/dev/null || true
-        log_w "stopped \$job_name"
-    fi
-done
-sleep 1
-
-# Framework shutdown may have killed the light — restore via sysfs.
-_restore_fl 2>/dev/null || true
-log_w "restored frontlight"
-rm -f /tmp/zenmtp_frontlight /tmp/zenmtp_frontlight_path 2>/dev/null || true
-
-if [ -f "\$KOREADER_LAUNCH" ]; then
-    nohup sh "\$KOREADER_LAUNCH" --kual --no-framework </dev/null >/dev/null 2>&1 &
-    log_w "KOReader launched pid=\$!"
-    if [ -n "\$EIPS_BIN" ]; then
-        _s=0
-        while [ "\$_s" -lt 10 ]; do
-            if [ -f "\$SPLASH" ]; then
-                "\$EIPS_BIN" -g "\$SPLASH" >/dev/null 2>/dev/null || true
-            else
-                "\$EIPS_BIN" 0 0 "Zen MTP" >/dev/null 2>/dev/null || true
-            fi
-            sleep 1
-            _s=\$((_s + 1))
+    # Write saved brightness once to sysfs. Lua handles widget state.
+    _fl_br="$(cat /tmp/zenmtp_fl_br 2>/dev/null)"
+    rm -f /tmp/zenmtp_fl_br 2>/dev/null
+    if [ -n "$_fl_br" ] && [ "$_fl_br" -gt 0 ] 2>/dev/null; then
+        for _bl in /sys/class/backlight/*/brightness; do
+            [ -w "$_bl" ] && echo "$_fl_br" > "$_bl" 2>/dev/null
         done
-        # KOReader startup may have reset brightness — override one final time.
-        _restore_fl 2>/dev/null || true
+        log_w "fl set brightness=$_fl_br"
     fi
 else
-    log_w "KOReader launch script not found: \$KOREADER_LAUNCH"
+    log_w "KOReader launch script not found: $KOREADER_LAUNCH"
 fi
 ZENWATCHER
     chmod 755 "$watcher_script" 2>/dev/null || true
 }
 
-# Install /etc/upstart/zenmtp-watcher.conf so the watcher runs in init's cgroup
-# (and thus survives framework restarts / USB-stack kills). Uses mntroot rw
-# pattern from kindle-kual-blockamazon. Idempotent: only rewrites on version bump.
 ensure_watcher_upstart_installed() {
     watcher_script="$SCRIPT_DIR/zenmtp_watcher.sh"
     desired_marker="# zenmtp-watcher upstart job v$WATCHER_VERSION"
@@ -560,875 +549,89 @@ start_restore_watcher() {
     if ensure_watcher_upstart_installed; then
         if initctl emit --no-wait zenmtp-restore >/dev/null 2>&1; then
             log "restore watcher dispatched via upstart event zenmtp-restore"
-            log "start_restore_watcher end"
             return 0
         fi
         log "initctl emit failed; falling back to double-fork"
     fi
 
-    # Fallback: double-fork + setsid to escape ZenMTP.sh's process group/cgroup.
     ( setsid sh -c "nohup sh '$watcher_script' </dev/null >/dev/null 2>&1 &" ) &
     _wpid=$!
     wait "$_wpid" 2>/dev/null || true
-    log "restore watcher dispatched via double-fork (intermediate pid=$_wpid) script=$watcher_script"
-    log "start_restore_watcher end"
+    log "restore watcher dispatched via double-fork (intermediate pid=$_wpid)"
 }
 
-# Double clear + sleep to flush framebuffer before framework can repaint covers.
-force_refresh() {
-    eips -c > /dev/null 2>&1
-    eips -c > /dev/null 2>&1
-    sleep 1
-}
+# ============================================================
+# Main
+# ============================================================
 
 force_refresh
+log "ZenMTP v$WATCHER_VERSION main_script start pid=$$"
 
-log "ZenMTP v$WATCHER_VERSION start"
-
-# Clean up flags from any previous incomplete session.
+# Clean up flags from previous incomplete session
 rm -f "$ZENMTP_SETUP_DONE_FLAG" 2>/dev/null || true
 
-# Save frontlight brightness so the watcher can restore it after MTP.
-_fl_save="/tmp/zenmtp_frontlight"
-_fl_path="/tmp/zenmtp_frontlight_path"
-rm -f "$_fl_path" 2>/dev/null || true
-if command -v lipc-get-prop >/dev/null 2>&1; then
-    lipc-get-prop com.lab126.powerd flIntensity > "$_fl_save" 2>/dev/null || true
-fi
-# Fallback: try sysfs if lipc didn't produce a value.
-if [ ! -s "$_fl_save" ]; then
-    for _bl in /sys/class/backlight/*/brightness; do
-        if [ -r "$_bl" ]; then
-            cat "$_bl" > "$_fl_save" 2>/dev/null || true
-            echo "$_bl" > "$_fl_path" 2>/dev/null || true
-            break
-        fi
-    done
-fi
-# If still empty, try epdc path.
-if [ ! -s "$_fl_save" ]; then
-    _epdc="/sys/devices/platform/mxc_epdc_fb/graphics/fb0/epdc_brightness"
-    if [ -r "$_epdc" ]; then
-        cat "$_epdc" > "$_fl_save" 2>/dev/null || true
-        echo "$_epdc" > "$_fl_path" 2>/dev/null || true
-    fi
-fi
-log "saved frontlight brightness: $(cat "$_fl_save" 2>/dev/null || echo unknown)"
-
-# Kill any stale return_monitor from a previous session before we start.
-if [ -r "$RETURN_MONITOR_PID_FILE" ]; then
-    _old_rm="$(cat "$RETURN_MONITOR_PID_FILE" 2>/dev/null)"
-    if [ -n "$_old_rm" ] && kill -0 "$_old_rm" 2>/dev/null; then
-        kill -9 "$_old_rm" >/dev/null 2>/dev/null || true
-        log "killed stale return_monitor pid=$_old_rm"
-    fi
-    rm -f "$RETURN_MONITOR_PID_FILE" 2>/dev/null || true
-fi
-
-if [ "${ZENMTP_KOREADER_HANDOFF:-0}" = "1" ]; then
-    touch "$ZENMTP_RESTORE_FLAG" 2>/dev/null || true
-    echo "$$" > "$ZENMTP_MAIN_PID_FILE" 2>/dev/null || true
-    trap 'rm -f "$ZENMTP_MAIN_PID_FILE" 2>/dev/null || true' EXIT
-    log "early restore flag written: $ZENMTP_RESTORE_FLAG main_pid=$$"
-    start_restore_watcher
-fi
-
-show_splash() {
-    splash_text="$1"
-    if [ -z "$EIPS_BIN" ]; then
-        return
-    fi
-
-    if [ -f "$SPLASH" ]; then
-        "$EIPS_BIN" -g "$SPLASH" > /dev/null 2>&1
-    else
-        "$EIPS_BIN" 0 0 "Zen MTP" > /dev/null 2>&1
-        if [ -n "$splash_text" ]; then
-            "$EIPS_BIN" 0 2 "$splash_text" > /dev/null 2>&1
-        fi
-    fi
-}
-
-sustain_splash() {
-    duration_secs="$1"
-    _i=0
-    while [ "$_i" -lt "$duration_secs" ]; do
-        show_splash
-        sleep 1
-        _i=$((_i + 1))
-    done
-}
-
-stop_splash_daemon() {
-    touch "$SPLASH_STOP_FILE" >/dev/null 2>/dev/null || true
-    if [ -r "$SPLASH_PID_FILE" ]; then
-        splash_pid="$(cat "$SPLASH_PID_FILE" 2>/dev/null)"
-        if [ -n "$splash_pid" ] && kill -0 "$splash_pid" 2>/dev/null; then
-            kill "$splash_pid" >/dev/null 2>/dev/null || true
-        fi
-    fi
-    rm -f "$SPLASH_PID_FILE" >/dev/null 2>/dev/null || true
-}
-
-start_splash_daemon() {
-    duration_secs="$1"
-    mode="$2"
-    if [ -z "$mode" ]; then
-        mode="immediate"
-    fi
-
-    if [ -z "$EIPS_BIN" ]; then
-        log "start_splash_daemon skipped: eips not found"
-        return
-    fi
-
-    stop_splash_daemon
-    rm -f "$SPLASH_STOP_FILE" >/dev/null 2>/dev/null || true
-
-    if command -v nohup >/dev/null 2>&1; then
-        nohup sh -c '
-duration_secs="$1"
-splash="$2"
-eips_bin="$3"
-mode="$4"
-handoff="$5"
-stop_file="$6"
-pid_file="$7"
-gdir="$8"
-log_file="$9"
-
-daemon_log() {
-    echo "$(date '+%Y-%m-%d %H:%M:%S') splash_daemon $*" >> "$log_file"
-}
-
-echo "$$" > "$pid_file" 2>/dev/null || true
-daemon_log "started pid=$$ mode=$mode duration=${duration_secs}s"
-
-sleep_short() {
-    sleep 0.2 2>/dev/null || sleep 1
-}
-
-udc_state_value() {
-    udc_name="$(ls /sys/class/udc/ 2>/dev/null | head -1)"
-    if [ -z "$udc_name" ]; then
-        echo "unknown"
-        return
-    fi
-    state_file="/sys/class/udc/$udc_name/state"
-    if [ -r "$state_file" ]; then
-        cat "$state_file" 2>/dev/null || echo "unknown"
-    else
-        echo "unknown"
-    fi
-}
-
-udc_is_configured() {
-    state_now="$(udc_state_value)"
-    [ "$state_now" = "configured" ]
-}
-
-is_koreader_alive() {
-    for proc_dir in /proc/[0-9]*; do
-        pid="${proc_dir##*/}"
-        [ "$pid" = "$$" ] && continue
-        [ -n "$PPID" ] && [ "$pid" = "$PPID" ] && continue
-        cmdline=""
-        exe=""
-        [ -r "$proc_dir/cmdline" ] && cmdline="$(tr "\000" " " < "$proc_dir/cmdline" 2>/dev/null)"
-        [ -L "$proc_dir/exe" ] && exe="$(readlink "$proc_dir/exe" 2>/dev/null)"
-        case "$cmdline $exe" in
-            *"koreader.lua"*|*"/mnt/us/koreader/koreader.sh"*|*"/koreader/luajit"*)
-                return 0
-                ;;
-        esac
-    done
-    return 1
-}
-
-is_mtp_active() {
-    mtp_seen=1
-    for proc_dir in /proc/[0-9]*; do
-        cmdline=""
-        [ -r "$proc_dir/cmdline" ] && cmdline="$(tr "\000" " " < "$proc_dir/cmdline" 2>/dev/null)"
-        case "$cmdline" in
-            *"tizen-mtp"*)
-                mtp_seen=0
-                break
-                ;;
-        esac
-    done
-
-    [ "$mtp_seen" -ne 0 ] && return 1
-    udc_is_configured || return 1
-    return 0
-}
-
-if [ "$mode" = "post_koreader" ]; then
-    wait_secs=0
-    while [ "$wait_secs" -lt 20 ]; do
-        [ -f "$stop_file" ] && rm -f "$pid_file" && exit 0
-        if ! is_koreader_alive; then
-            daemon_log "detected KOReader exit after ${wait_secs}s"
-            "$eips_bin" -c >/dev/null 2>/dev/null || true
-            "$eips_bin" -c >/dev/null 2>/dev/null || true
-            burst_i=0
-            while [ "$burst_i" -lt 12 ]; do
-                if [ -f "$splash" ]; then
-                    "$eips_bin" -g "$splash" >/dev/null 2>/dev/null
-                else
-                    "$eips_bin" 0 0 "Zen MTP" >/dev/null 2>/dev/null
-                fi
-                sleep_short
-                burst_i=$((burst_i + 1))
-            done
-            break
-        fi
-        sleep 1
-        wait_secs=$((wait_secs + 1))
-    done
-fi
-
-_i=0
-mtp_seen_once=0
-while [ "$_i" -lt "$duration_secs" ]; do
-    if [ -f "$stop_file" ]; then
-        daemon_log "stopping: external stop file present"
-        break
-    fi
-
-    if is_mtp_active; then
-        if [ "$mtp_seen_once" -eq 0 ]; then
-            daemon_log "detected mtp active"
-        fi
-        mtp_seen_once=1
-    elif [ "$mtp_seen_once" -eq 1 ]; then
-        daemon_log "stopping: mtp inactive after being active"
-        break
-    fi
-
-    if is_koreader_alive; then
-        daemon_log "stopping: KOReader is alive"
-        break
-    fi
-
-    if [ -f "$splash" ]; then
-        "$eips_bin" -g "$splash" >/dev/null 2>/dev/null
-    else
-        "$eips_bin" 0 0 "Zen MTP" >/dev/null 2>/dev/null
-    fi
-    if [ $((_i % 5)) -eq 0 ]; then
-        daemon_log "draw tick i=$_i mtp_seen_once=$mtp_seen_once"
-    fi
-    sleep 1
-    _i=$((_i + 1))
+# Save raw brightness before MTP (framework may turn it off during teardown)
+for _bl in /sys/class/backlight/*/brightness; do
+    [ -r "$_bl" ] && cat "$_bl" > /tmp/zenmtp_fl_br 2>/dev/null && break
 done
 
-rm -f "$pid_file" >/dev/null 2>/dev/null || true
-daemon_log "exiting"
-' sh "$duration_secs" "$SPLASH" "$EIPS_BIN" "$mode" "${ZENMTP_KOREADER_HANDOFF:-0}" "$SPLASH_STOP_FILE" "$SPLASH_PID_FILE" "$GDIR" "$LOG_FILE" >/dev/null 2>/dev/null &
-        log "start_splash_daemon started nohup pid=$! duration=${duration_secs}s mode=$mode"
-    else
-        (
-            if [ "$mode" = "post_koreader" ]; then
-                wait_secs=0
-                while [ "$wait_secs" -lt 20 ]; do
-                    if [ -z "$(koreader_pid_list)" ]; then
-                        break
-                    fi
-                    sleep 1
-                    wait_secs=$((wait_secs + 1))
-                done
-            fi
-            _i=0
-            while [ "$_i" -lt "$duration_secs" ]; do
-                show_splash
-                sleep 1
-                _i=$((_i + 1))
-            done
-        ) >/dev/null 2>/dev/null &
-        echo "$!" > "$SPLASH_PID_FILE"
-        log "start_splash_daemon started subshell pid=$! duration=${duration_secs}s mode=$mode"
-    fi
-}
+# --- Start restore watcher ---
+touch "$ZENMTP_RESTORE_FLAG" 2>/dev/null || true
+echo "$$" > "$ZENMTP_MAIN_PID_FILE" 2>/dev/null || true
+trap 'rm -f "$ZENMTP_MAIN_PID_FILE" 2>/dev/null || true' EXIT
+log "wrote restore flag + main_pid=$$"
+start_restore_watcher
 
-show_splash "Enabling MTP mode..."
-start_splash_daemon 35 post_koreader
+# --- Splash while MTP starts ---
+show_splash
+start_splash_daemon 60
 
+# Stop usbnet jobs
 for JOB in usbnetlite usbnetd usbnet-autostart usbnetwork usbnet; do
     stop "$JOB" >/dev/null 2>/dev/null || true
 done
 rm -f /mnt/us/usbnet/auto 2>/dev/null || true
 
-log "Detected UDC_HW=$UDC_HW GDIR=$GDIR SCRIPT_DIR=$SCRIPT_DIR"
-
-mtp_udc_bound() {
-    [ -n "$UDC_HW" ]
-}
-
-mtp_process_running() {
-    ps 2>/dev/null | grep -q "tizen-mtp"
-}
-
-functionfs_ready() {
-    mount 2>/dev/null | grep -q " on /dev/usb-ffs/mtp type functionfs"
-}
-
-mtp_looks_healthy() {
-    mtp_process_running && functionfs_ready
-}
-
-restart_mtp() {
-    log "restart_mtp begin"
-    log_job_status "mtp"
-
-    run_upstart_cmd_with_timeout "stop mtp" "stop mtp" 8
-    wait_for_job_state "mtp" "stopped" 8 || true
-
-    run_upstart_cmd_with_timeout "start mtp" "start mtp" 10
-    wait_for_job_state "mtp" "running" 10 || true
-    wait_for_mtp_runtime_ready 4 || true
-
-    log_job_status "mtp"
-    log_cmd "mtp process check" sh -c "ps 2>/dev/null | grep -E 'tizen-mtp|/usr/sbin/mtp' | grep -v grep || true"
-    log "restart_mtp end"
-}
-
-bind_udc_if_needed() {
-    log "bind_udc_if_needed begin"
-    if [ -n "$UDC_HW" ]; then
-        # fire-and-forget: UDC bind blocks in kernel until host enumerates; never wait on it
-        log "bind_udc_if_needed fire-and-forget bind to $UDC_HW"
-        ( echo "$UDC_HW" > "$GDIR/UDC" 2>/dev/null ) &
-        log "bind_udc_if_needed dispatched pid=$!"
-    else
-        log "bind_udc_if_needed skipped: no UDC_HW"
-    fi
-    log "bind_udc_if_needed end"
-}
-
-force_udc_reenumeration() {
-    log "force_udc_reenumeration begin"
-    if [ -z "$UDC_HW" ]; then
-        log "force_udc_reenumeration skipped: no UDC_HW detected"
-        return 1
-    fi
-
-    echo "" > "$GDIR/UDC" 2>/dev/null
-    clear_rc=$?
-    log "force_reenum checkpoint after clear rc=$clear_rc"
-    sleep 1
-    # bind blocks in kernel until host enumerates; fire-and-forget
-    log "force_reenum fire-and-forget bind to $UDC_HW"
-    ( echo "$UDC_HW" > "$GDIR/UDC" 2>/dev/null ) &
-    log "force_reenum dispatched bind pid=$!"
-    log "force_udc_reenumeration end"
-    return 0
-}
-
-close_koreader_if_active() {
-    if [ "${ZENMTP_KOREADER_HANDOFF:-0}" = "1" ]; then
-        log "close_koreader_if_active skipped: plugin handoff already requested"
-        return 0
-    fi
-
-    ko_pwd="$(pwd 2>/dev/null)"
-    if ! echo "$ko_pwd" | grep -q "/koreader"; then
-        log "close_koreader_if_active skipped: cwd=${ko_pwd:-<unknown>}"
-        return 0
-    fi
-
-    pids="$(koreader_pid_list)"
-    if [ -n "$pids" ]; then
-        log "close_koreader_if_active matched pids:$pids"
-        for pid in $pids; do
-            kill -TERM "$pid" >/dev/null 2>/dev/null || true
-        done
-        sleep 1
-        pids="$(koreader_pid_list)"
-        if [ -n "$pids" ]; then
-            log "close_koreader_if_active escalating to KILL for pids:$pids"
-            for pid in $pids; do
-                kill -KILL "$pid" >/dev/null 2>/dev/null || true
-            done
-        fi
-    else
-        log "close_koreader_if_active: no /proc koreader match, trying fallback patterns"
-        pkill -TERM -f "/mnt/us/koreader" >/dev/null 2>/dev/null || true
-        pkill -TERM -f "koreader.lua" >/dev/null 2>/dev/null || true
-        pkill -TERM -f "reader.lua" >/dev/null 2>/dev/null || true
-        sleep 1
-        pids="$(koreader_pid_list)"
-        if [ -n "$pids" ]; then
-            for pid in $pids; do
-                kill -KILL "$pid" >/dev/null 2>/dev/null || true
-            done
-        else
-            lpids="$(luajit_pid_list)"
-            if [ -n "$lpids" ]; then
-                log "close_koreader_if_active: targeted luajit fallback pids:$lpids"
-                for pid in $lpids; do
-                    kill -TERM "$pid" >/dev/null 2>/dev/null || true
-                done
-                sleep 1
-                lpids="$(luajit_pid_list)"
-                if [ -n "$lpids" ]; then
-                    for pid in $lpids; do
-                        kill -KILL "$pid" >/dev/null 2>/dev/null || true
-                    done
-                fi
-            else
-                log "close_koreader_if_active: fallback to killall luajit"
-                killall -TERM luajit >/dev/null 2>/dev/null || true
-                sleep 1
-                killall -KILL luajit >/dev/null 2>/dev/null || true
-            fi
-        fi
-    fi
-
-    pids="$(koreader_pid_list)"
-    if [ -n "$pids" ]; then
-        log "close_koreader_if_active final state: still running pids:$pids"
-    else
-        log "close_koreader_if_active final state: no KOReader pid matched"
-    fi
-}
-
-start_koreader_return_monitor() {
-    if [ "${ZENMTP_KOREADER_HANDOFF:-0}" != "1" ]; then
-        log "start_koreader_return_monitor skipped: non-handoff mode"
-        return
-    fi
-
-    if [ ! -f "$KOREADER_LAUNCH_SCRIPT" ]; then
-        log "start_koreader_return_monitor skipped: missing launcher $KOREADER_LAUNCH_SCRIPT"
-        return
-    fi
-
-    if [ -r "$RETURN_MONITOR_PID_FILE" ]; then
-        old_pid="$(cat "$RETURN_MONITOR_PID_FILE" 2>/dev/null)"
-        if [ -n "$old_pid" ] && kill -0 "$old_pid" 2>/dev/null; then
-            kill -9 "$old_pid" >/dev/null 2>/dev/null || true
-        fi
-    fi
-
-    cat > "$RETURN_MONITOR_SCRIPT" <<'ZENMTP_RETURN_MONITOR'
-#!/bin/sh
-gdir="$1"
-stop_file="$2"
-splash_pid_file="$3"
-koreader_launch_script="$4"
-return_pid_file="$5"
-log_file="$6"
-restore_flag="$7"
-splash_path="$8"
-eips_bin="$9"
-setup_done_flag="${10}"
-
-monitor_log() {
-    echo "$(date '+%Y-%m-%d %H:%M:%S') return_monitor $*" >> "$log_file"
-}
-
-draw_splash_once() {
-    [ -z "$eips_bin" ] && return
-    if [ -f "$splash_path" ]; then
-        "$eips_bin" -g "$splash_path" >/dev/null 2>/dev/null || true
-    else
-        "$eips_bin" 0 0 "Zen MTP" >/dev/null 2>/dev/null || true
-    fi
-}
-
-splash_burst() {
-    burst_secs="$1"
-    _b=0
-    while [ "$_b" -lt "$burst_secs" ]; do
-        [ -z "$eips_bin" ] && break
-        if [ -f "$splash_path" ]; then
-            "$eips_bin" -g "$splash_path" >/dev/null 2>/dev/null || true
-        else
-            "$eips_bin" 0 0 "Zen MTP" >/dev/null 2>/dev/null || true
-        fi
-        sleep 1
-        _b=$((_b + 1))
-    done
-}
-
-wait_for_ko_with_splash() {
-    secs="$1"
-    _w=0
-    while [ "$_w" -lt "$secs" ]; do
-        if is_koreader_alive; then
-            return 0
-        fi
-        if [ -n "$eips_bin" ]; then
-            if [ -f "$splash_path" ]; then
-                "$eips_bin" -g "$splash_path" >/dev/null 2>/dev/null || true
-            else
-                "$eips_bin" 0 0 "Zen MTP" >/dev/null 2>/dev/null || true
-            fi
-        fi
-        sleep 1
-        _w=$((_w + 1))
-    done
-    is_koreader_alive
-}
-
-udc_state_value() {
-    udc_name="$(ls /sys/class/udc/ 2>/dev/null | head -1)"
-    if [ -z "$udc_name" ]; then
-        echo "unknown"
-        return
-    fi
-    state_file="/sys/class/udc/$udc_name/state"
-    if [ -r "$state_file" ]; then
-        cat "$state_file" 2>/dev/null || echo "unknown"
-    else
-        echo "unknown"
-    fi
-}
-
-udc_is_configured() {
-    state_now="$(udc_state_value)"
-    [ "$state_now" = "configured" ]
-}
-
-monitor_status_snapshot() {
-    tag="$1"
-    udc_now="$(udc_state_value)"
-    mtp_count=0
-    for proc_dir in /proc/[0-9]*; do
-        cmdline=""
-        [ -r "$proc_dir/cmdline" ] && cmdline="$(tr "\000" " " < "$proc_dir/cmdline" 2>/dev/null)"
-        case "$cmdline" in
-            *"tizen-mtp"*)
-                mtp_count=$((mtp_count + 1))
-                ;;
-        esac
-    done
-    if mount 2>/dev/null | grep -q " on /dev/usb-ffs/mtp type functionfs"; then
-        ffs_state=1
-    else
-        ffs_state=0
-    fi
-    monitor_log "$tag elapsed=${elapsed}s seen_active=$seen_active seen_koreader_gone=$seen_koreader_gone udc=${udc_now:-<empty>} mtp_count=$mtp_count ffs=$ffs_state"
-}
-
-echo "$$" > "$return_pid_file" 2>/dev/null || true
-trap '' TERM HUP INT QUIT USR1 USR2
-monitor_log "started pid=$$"
-
-is_koreader_alive() {
-    for proc_dir in /proc/[0-9]*; do
-        pid="${proc_dir##*/}"
-        [ "$pid" = "$$" ] && continue
-        [ -n "$PPID" ] && [ "$pid" = "$PPID" ] && continue
-        cmdline=""
-        exe=""
-        [ -r "$proc_dir/cmdline" ] && cmdline="$(tr "\000" " " < "$proc_dir/cmdline" 2>/dev/null)"
-        [ -L "$proc_dir/exe" ] && exe="$(readlink "$proc_dir/exe" 2>/dev/null)"
-        case "$cmdline $exe" in
-            *"koreader.lua"*|*"/mnt/us/koreader/koreader.sh"*|*"/koreader/luajit"*)
-                return 0
-                ;;
-        esac
-    done
-    return 1
-}
-
-is_mtp_active() {
-    # Require tizen-mtp process AND functionfs mount.
-    # After setup completes (setup-done flag present), also require UDC bound.
-    _mtp_found=0
-    for proc_dir in /proc/[0-9]*; do
-        [ -r "$proc_dir/comm" ] || continue
-        case "$(cat "$proc_dir/comm" 2>/dev/null)" in
-            tizen-mtp) _mtp_found=1; break ;;
-        esac
-    done
-    [ "$_mtp_found" -eq 0 ] && return 1
-    mount 2>/dev/null | grep -q " on /dev/usb-ffs/mtp type functionfs" || return 1
-    if [ -f "$setup_done_flag" ]; then
-        [ -n "$gdir" ] && [ -r "$gdir/UDC" ] && [ -n "$(cat "$gdir/UDC" 2>/dev/null)" ] || return 1
-    fi
-    return 0
-}
-
-stop_splash() {
-    monitor_log "stop_splash begin"
-    touch "$stop_file" >/dev/null 2>/dev/null || true
-    if [ -r "$splash_pid_file" ]; then
-        spid="$(cat "$splash_pid_file" 2>/dev/null)"
-        if [ -n "$spid" ] && kill -0 "$spid" 2>/dev/null; then
-            kill "$spid" >/dev/null 2>/dev/null || true
-            monitor_log "stop_splash killed splash pid=$spid"
-        else
-            monitor_log "stop_splash no running splash pid (pid=${spid:-<empty>})"
-        fi
-    else
-        monitor_log "stop_splash splash pid file missing"
-    fi
-}
-
-stop_ui_jobs_for_koreader() {
-    for job_name in appmgrd lab126_gui framework; do
-        if initctl status "$job_name" >/dev/null 2>&1; then
-            status_before="$(initctl status "$job_name" 2>/dev/null || true)"
-            monitor_log "ui before stop $job_name status=${status_before:-<none>}"
-            stop "$job_name" >/dev/null 2>/dev/null
-            stop_rc=$?
-            monitor_log "stop $job_name rc=$stop_rc"
-            status_after="$(initctl status "$job_name" 2>/dev/null || true)"
-            monitor_log "ui after stop $job_name status=${status_after:-<none>}"
-        else
-            monitor_log "ui job not found: $job_name"
-        fi
-    done
-    sleep 1
-}
-
-launch_koreader() {
-    launch_dir="$(dirname "$koreader_launch_script")"
-
-    nohup "$koreader_launch_script" --kual --no-framework </dev/null >/dev/null 2>>"$log_file" &
-    monitor_log "launch attempt 1: $koreader_launch_script --kual --no-framework pid=$!"
-    if wait_for_ko_with_splash 5; then
-        monitor_log "launch attempt 1 succeeded"
-        return 0
-    fi
-    monitor_log "launch attempt 1 not detected"
-
-    nohup sh "$koreader_launch_script" --kual --no-framework </dev/null >/dev/null 2>>"$log_file" &
-    monitor_log "launch attempt 2: sh $koreader_launch_script --kual --no-framework pid=$!"
-    if wait_for_ko_with_splash 5; then
-        monitor_log "launch attempt 2 succeeded"
-        return 0
-    fi
-    monitor_log "launch attempt 2 not detected"
-
-    (
-        cd "$launch_dir" 2>/dev/null || exit 1
-        nohup ./koreader.sh --kual --no-framework </dev/null >/dev/null 2>>"$log_file" &
-        echo "$!" > /tmp/zenmtp_launch3.pid 2>/dev/null || true
-    )
-    launch3_pid="$(cat /tmp/zenmtp_launch3.pid 2>/dev/null || true)"
-    rm -f /tmp/zenmtp_launch3.pid >/dev/null 2>/dev/null || true
-    monitor_log "launch attempt 3: cd $launch_dir && ./koreader.sh --kual --no-framework pid=${launch3_pid:-<unknown>}"
-    if wait_for_ko_with_splash 5; then
-        monitor_log "launch attempt 3 succeeded"
-        return 0
-    fi
-    monitor_log "launch attempt 3 not detected"
-
-    monitor_log "all launch attempts failed"
-    monitor_status_snapshot "launch_failed_snapshot"
-    return 1
-}
-
-seen_active=0
-seen_koreader_gone=0
-elapsed=0
-launch_attempted=0
-inactive_seconds=0
-last_ko_state="-1"
-last_mtp_state="-1"
-last_heartbeat=-5
-while [ "$elapsed" -lt 21600 ]; do
-    ko_alive=0
-    if is_koreader_alive; then
-        ko_alive=1
-        if [ "$seen_koreader_gone" -eq 1 ] && [ "$seen_active" -eq 1 ] && [ "$launch_attempted" -eq 1 ]; then
-            monitor_log "exiting: KOReader alive after handoff cycle"
-            rm -f "$return_pid_file"
-            exit 0
-        fi
-    else
-        seen_koreader_gone=1
-    fi
-
-    if [ "$ko_alive" != "$last_ko_state" ]; then
-        monitor_log "ko_state changed to $ko_alive"
-        last_ko_state="$ko_alive"
-    fi
-
-    mtp_active=0
-    if is_mtp_active; then
-        mtp_active=1
-        seen_active=1
-    fi
-
-    if [ "$seen_koreader_gone" -eq 1 ] && [ "$mtp_active" -eq 0 ]; then
-        inactive_seconds=$((inactive_seconds + 1))
-    else
-        inactive_seconds=0
-    fi
-
-    if [ "$mtp_active" != "$last_mtp_state" ]; then
-        monitor_log "mtp_state changed to $mtp_active"
-        monitor_status_snapshot "mtp_state_transition"
-        last_mtp_state="$mtp_active"
-    fi
-
-    if [ $((elapsed - last_heartbeat)) -ge 5 ]; then
-        monitor_status_snapshot "heartbeat"
-        last_heartbeat="$elapsed"
-    fi
-
-    restore_reason=""
-    if [ -f "$restore_flag" ] && [ "$seen_koreader_gone" -eq 1 ] && [ "$mtp_active" -eq 0 ]; then
-        if [ "$seen_active" -eq 1 ]; then
-            restore_reason="mtp inactive after active phase"
-        elif [ "$inactive_seconds" -ge 120 ]; then
-            udc_now_fallback="$(udc_state_value)"
-            restore_reason="fallback inactive timeout inactive_seconds=$inactive_seconds seen_active=$seen_active udc=${udc_now_fallback:-unknown}"
-        fi
-    fi
-
-    if [ -n "$restore_reason" ]; then
-        monitor_log "$restore_reason; restoring KOReader"
-        monitor_status_snapshot "pre_restore"
-        draw_splash_once
-        monitor_log "splash drawn pre-restore"
-        stop_splash
-        splash_burst 2
-        rm -f "$restore_flag" 2>/dev/null || true
-        monitor_log "removed restore flag $restore_flag"
-        stop_ui_jobs_for_koreader
-        splash_burst 2
-        if ! is_koreader_alive; then
-            launch_attempted=1
-            launch_koreader
-            launch_rc=$?
-            monitor_log "launch_koreader rc=$launch_rc"
-            monitor_status_snapshot "post_launch"
-            if [ "$launch_rc" -eq 0 ]; then
-                splash_burst 10
-                monitor_log "post-launch splash burst done"
-            fi
-        fi
-        rm -f "$return_pid_file"
-        exit 0
-    fi
-
-    sleep 1
-    elapsed=$((elapsed + 1))
-done
-
-monitor_log "timeout reached without mtp close"
-rm -f "$return_pid_file"
-ZENMTP_RETURN_MONITOR
-
-    chmod 700 "$RETURN_MONITOR_SCRIPT" >/dev/null 2>/dev/null || true
-
-    nohup sh "$RETURN_MONITOR_SCRIPT" "$GDIR" "$SPLASH_STOP_FILE" "$SPLASH_PID_FILE" "$KOREADER_LAUNCH_SCRIPT" "$RETURN_MONITOR_PID_FILE" "$LOG_FILE" "$ZENMTP_RESTORE_FLAG" "$SPLASH" "$EIPS_BIN" "$ZENMTP_SETUP_DONE_FLAG" >/dev/null 2>/dev/null &
-
-    log "start_koreader_return_monitor started pid=$!"
-    sleep 1
-    if [ -r "$RETURN_MONITOR_PID_FILE" ]; then
-        log_cmd "return_monitor pid file" cat "$RETURN_MONITOR_PID_FILE"
-    else
-        log "return_monitor pid file missing after launch"
-    fi
-}
-
-ensure_ui_prereq_for_mtp() {
-    log "ensure_ui_prereq_for_mtp begin"
-    for JOB in framework lab126_gui appmgrd; do
-        log_job_status "$JOB"
-        if initctl status "$JOB" >/dev/null 2>&1; then
-            if ! initctl status "$JOB" 2>/dev/null | grep -q "start/running"; then
-                log "Starting UI prerequisite job: $JOB"
-                start "$JOB" >/dev/null 2>/dev/null
-                log "start $JOB rc=$?"
-                sleep 2
-                log_job_status "$JOB"
-            fi
-            log "ensure_ui_prereq_for_mtp selected job: $JOB"
-            return 0
-        fi
-    done
-    log "ensure_ui_prereq_for_mtp found no known UI job"
-    return 1
-}
-
-kick_usb_ui() {
-    log "kick_usb_ui begin"
-    force_refresh
-    show_splash
-    log "kick_usb_ui splash phase 1 drawn"
-    ensure_ui_prereq_for_mtp || log "kick_usb_ui: no known UI prerequisite upstart job found"
-
-    if command -v lipc-set-prop >/dev/null 2>&1; then
-        lipc-set-prop com.lab126.appmgrd start "app://com.lab126.booklet.home" >/dev/null 2>/dev/null
-        log "kick_usb_ui lipc-set-prop start home rc=$?"
-    else
-        log "kick_usb_ui skipped: lipc-set-prop not found"
-    fi
-
-    show_splash
-    log "kick_usb_ui splash phase 2 drawn"
-
-    log "kick_usb_ui end"
-}
-
 debug_snapshot
 
-ensure_ui_prereq_for_mtp || log "No known UI prerequisite upstart job found"
-
-if mtp_looks_healthy; then
-    log "MTP looked healthy before restart; forcing full restart for fresh enumeration"
-else
-    log "MTP not healthy before restart; running full restart path"
-fi
-
-# Framework's USB event handler sends SIGTERM/SIGHUP when gadget state changes; ignore it.
+# Ignore framework signals during MTP setup
 trap '' TERM HUP
 
 log "Clearing gadget UDC binding"
-echo "" > "$GDIR/UDC" 2>/dev/null
-log "clear UDC rc=$?"
-log "UDC right after clear readback skipped"
+echo "" > "$GDIR/UDC" 2>/dev/null || true
+
+# Kill splash daemon now so it doesn't fight the framework for the
+# e-ink display during MTP restart. The last splash frame stays on
+# screen (e-ink persistence) until the framework draws the MTP UI.
+stop_splash_daemon
 
 restart_mtp
 bind_udc_if_needed
 
-if ! mtp_udc_bound; then
-    log "MTP not bound after first attempt; trying UI prerequisite and retry"
-    ensure_ui_prereq_for_mtp || log "No known UI prerequisite upstart job found"
+if ! mtp_looks_healthy; then
+    log "MTP not healthy after first attempt; retrying"
     restart_mtp
     bind_udc_if_needed
 fi
 
 force_udc_reenumeration || true
-log "post force_udc_reenumeration"
-
 wait_for_mtp_health 4 || true
-log "post wait_for_mtp_health"
-# Signal watcher + return_monitor that setup is complete so they
-# can add UDC binding to their MTP-active checks.
+
+# Signal watcher that setup is complete
 touch "$ZENMTP_SETUP_DONE_FLAG" 2>/dev/null || true
-log "wrote setup-done flag $ZENMTP_SETUP_DONE_FLAG"
+log "wrote setup-done flag"
 
 if ! mtp_looks_healthy; then
     debug_snapshot
 fi
 
 if mtp_looks_healthy; then
-    udc_now="<skipped>"
-    proc_now="$(ps 2>/dev/null | grep -c tizen-mtp)"
-    log "ZenMTP success UDC=${udc_now:-<empty>} proc=$proc_now"
-    stop_splash_daemon
-    kick_usb_ui
-    close_koreader_if_active
-    log_cmd "post-close process snapshot" sh -c "ps 2>/dev/null | grep -E 'koreader|luajit|tizen-mtp|framework|appmgrd' | grep -v grep || true"
-    touch "$ZENMTP_RESTORE_FLAG" 2>/dev/null || true
-    log "wrote restore flag $ZENMTP_RESTORE_FLAG"
-    log "starting return monitor after successful handoff"
-    start_koreader_return_monitor
+    log "ZenMTP success"
 else
-    udc_now="<skipped>"
-    proc_now="$(ps 2>/dev/null | grep -c tizen-mtp)"
-    log "ZenMTP failed health-check: UDC=${udc_now:-<empty>} process=$proc_now"
-    stop_splash_daemon
-    if command -v eips >/dev/null 2>&1; then
+    log "ZenMTP failed health-check"
+    if [ -n "$EIPS_BIN" ]; then
+        "$EIPS_BIN" -c >/dev/null 2>/dev/null
+        "$EIPS_BIN" -c >/dev/null 2>/dev/null
         eips 0 4 "MTP did not start." >/dev/null 2>&1
         eips 0 5 "See /mnt/us/zenmtp.log" >/dev/null 2>&1
     fi

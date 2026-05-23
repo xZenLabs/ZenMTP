@@ -18,6 +18,39 @@ local util = require("util")
 local _ = require("gettext")
 local T = ffiUtil.template
 
+-- Fix: autosuspend _schedule_kindle else branch passes negative delay to
+-- scheduleIn when kindle_t1_reset_seconds <= 0 and suspend_delay_seconds <= 0.
+-- Instead of replacing the function, we wrap it: temporarily guard scheduleIn
+-- only during _schedule_kindle, intercept the negative delay, and reset t1 +
+-- reschedule for the full period. The original function logic is unchanged.
+-- This runs during ZenMTP's require phase, before autosuspend's init().
+if Device:isKindle() then
+    local ok, AutoSuspend = pcall(require, "plugins/autosuspend.koplugin/main")
+    if ok and AutoSuspend and AutoSuspend._schedule_kindle then
+        local _orig_schedule_kindle = AutoSuspend._schedule_kindle
+        local PowerD = require("device"):getPowerDevice()
+        local default_t1 = 4 * 60
+
+        AutoSuspend._schedule_kindle = function(self)
+            local _orig_si = UIManager.scheduleIn
+            UIManager.scheduleIn = function(si_self, seconds, action, ...)
+                UIManager.scheduleIn = _orig_si
+                if type(seconds) == "number" and seconds < 0 then
+                    logger.warn("AutoSuspend: _schedule_kindle negative t1 delay, resetting t1")
+                    PowerD:resetT1Timeout()
+                    self.last_t1_reset_time = UIManager:getElapsedTimeSinceBoot()
+                    return _orig_si(si_self, default_t1, action, ...)
+                end
+                return _orig_si(si_self, seconds, action, ...)
+            end
+            _orig_schedule_kindle(self)
+            UIManager.scheduleIn = _orig_si
+        end
+
+        logger.info("ZenMTP: patched AutoSuspend._schedule_kindle (negative t1 delay guard)")
+    end
+end
+
 local PAYLOAD_DIR_NAME = "ZenMTP"
 local TARGET_DIR = "/mnt/us/documents/" .. PAYLOAD_DIR_NAME
 local TARGET_SCRIPT = TARGET_DIR .. "/ZenMTP.sh"
@@ -284,7 +317,45 @@ function ZenMTP:notifyInstallError(err)
 end
 
 function ZenMTP:init()
-    os.remove("/tmp/zenmtp_restore_needed") -- clear stale flag from previous MTP session
+    os.remove("/tmp/zenmtp_restore_needed")
+
+    os.execute("touch /tmp/zenmtp_splash.stop 2>/dev/null")
+    os.execute("eips -c 2>/dev/null")
+
+    logger.info("ZenMTP: init")
+
+    -- Populate widget state so KOReader knows the frontlight is on.
+    UIManager:scheduleIn(3, function()
+        logger.info("ZenMTP: cb fired")
+        local ok1, pd = pcall(function() return Device:getPowerDevice() end)
+        logger.info("ZenMTP: cb pd_ok=", ok1, "pd=", pd and "yes" or "nil")
+        if not ok1 or not pd or not pd.setIntensity then
+            logger.warn("ZenMTP: cb no pd/setIntensity")
+            return
+        end
+        logger.info("ZenMTP: cb reading settings")
+        local fl = nil
+        if G_reader_settings then
+            fl = G_reader_settings:readSetting("frontlight_intensity")
+        end
+        fl = tonumber(fl) or 10
+        logger.info("ZenMTP: cb calling setIntensity(", fl, ")")
+        pcall(function() pd:setIntensity(fl) end)
+        logger.info("ZenMTP: cb setIntensity done")
+
+        if pd.beforeSuspend and not pd._zenmtp_bs_wrapped then
+            local _orig = pd.beforeSuspend
+            pd.beforeSuspend = function(self, ...)
+                logger.info("ZenMTP: beforeSuspend, fl off via sysfs")
+                os.execute("for b in /sys/class/backlight/*/brightness; do [ -w \"$b\" ] && echo 0 > \"$b\" 2>/dev/null; done")
+                return _orig(self, ...)
+            end
+            pd._zenmtp_bs_wrapped = true
+            logger.info("ZenMTP: cb wrapped beforeSuspend")
+        end
+        logger.info("ZenMTP: cb done")
+    end)
+
     if not self.settings then
         self.settings = LuaSettings:open(SETTINGS_FILE)
     end
