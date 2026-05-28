@@ -354,6 +354,7 @@ log "ZenMTP v$DAEMON_VERSION main_script start pid=$$"
 
 # Clean up flags from previous incomplete session
 rm -f "$ZENMTP_SETUP_DONE_FLAG" 2>/dev/null || true
+rm -f /tmp/zenmtp_from_koreader 2>/dev/null || true
 
 # Save raw brightness before MTP (framework may turn it off during teardown)
 for _bl in /sys/class/backlight/*/brightness; do
@@ -363,6 +364,11 @@ done
 # --- Start restore daemon ---
 touch "$ZENMTP_RESTORE_FLAG" 2>/dev/null || true
 echo "$$" > "$ZENMTP_MAIN_PID_FILE" 2>/dev/null || true
+# Signal daemon that ZenMTP was launched from KOReader
+if [ "$ZENMTP_KOREADER_HANDOFF" = 1 ]; then
+    touch /tmp/zenmtp_from_koreader 2>/dev/null || true
+    log "zenmtp_from_koreader flag set"
+fi
 trap 'rm -f "$ZENMTP_MAIN_PID_FILE" 2>/dev/null || true' EXIT
 log "wrote restore flag + main_pid=$$"
 start_restore_daemon

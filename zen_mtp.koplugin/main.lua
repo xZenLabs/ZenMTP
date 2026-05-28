@@ -229,7 +229,7 @@ local function writeInstalledPayloadSignature(signature)
 end
 
 local ZenMTP = WidgetContainer:extend{
-    name = "zenmtp",
+    name = "zen_mtp",
     is_doc_only = false,
     confirm_before_run = true,
     settings = nil,
@@ -340,47 +340,60 @@ function ZenMTP:notifyInstallError(err)
 end
 
 function ZenMTP:init()
+    if not self.settings then
+        self.settings = LuaSettings:open(SETTINGS_FILE)
+    end
+
     os.remove("/tmp/zenmtp_restore_needed")
     os.execute("touch /tmp/zenmtp_splash.stop 2>/dev/null")
     os.execute("eips -c 2>/dev/null")
 
     logger.dbg("ZenMTP: init")
 
-    -- Init frontlight widget state and hook suspend so the sleep
-    -- screen turns off the light (powerd is dead from --framework_stop).
-    UIManager:scheduleIn(3, function()
-        local ok, pd = pcall(function() return Device:getPowerDevice() end)
-        if not ok or not pd then
-            logger.warn("ZenMTP: cannot get PowerDevice")
-            return
-        end
-        if not pd.setIntensity then
-            logger.warn("ZenMTP: PowerDevice has no setIntensity")
-            return
-        end
-        local fl = tonumber(G_reader_settings and G_reader_settings:readSetting("frontlight_intensity")) or 10
-        pcall(pd.setIntensity, pd, fl)
-        logger.dbg("ZenMTP: fl widget init intensity=", fl)
+    -- Restore frontlight only when KOReader was launched by our daemon
+    -- after MTP disconnect. Skip on normal launches so other plugins
+    -- (e.g. schedule-based brightness) are not overridden.
+    local fl_br_file = io.open("/tmp/zenmtp_fl_br", "r")
+    if fl_br_file then
+        local saved_fl = fl_br_file:read("*l")
+        fl_br_file:close()
+        local fl = tonumber(saved_fl)
+        if fl and fl > 0 then
+            UIManager:scheduleIn(3, function()
+                local ok, pd = pcall(function() return Device:getPowerDevice() end)
+                if not ok or not pd then
+                    logger.warn("ZenMTP: cannot get PowerDevice")
+                    return
+                end
+                if not pd.setIntensity then
+                    logger.warn("ZenMTP: PowerDevice has no setIntensity")
+                    return
+                end
+                pcall(pd.setIntensity, pd, fl)
+                logger.dbg("ZenMTP: fl widget init intensity=", fl)
 
-        if pd.beforeSuspend and not pd._zenmtp_bs_wrapped then
-            local _orig = pd.beforeSuspend
-            pd.beforeSuspend = function(self, ...)
-                os.execute("for b in /sys/class/backlight/*/brightness; do [ -w \"$b\" ] && echo 0 > \"$b\" 2>/dev/null; done")
-                return _orig(self, ...)
-            end
-            pd._zenmtp_bs_wrapped = true
+                if pd.beforeSuspend and not pd._zenmtp_bs_wrapped then
+                    local _orig = pd.beforeSuspend
+                    pd.beforeSuspend = function(self, ...)
+                        os.execute("for b in /sys/class/backlight/*/brightness; do [ -w \"$b\" ] && echo 0 > \"$b\" 2>/dev/null; done")
+                        return _orig(self, ...)
+                    end
+                    pd._zenmtp_bs_wrapped = true
+                else
+                    logger.warn("ZenMTP: cannot wrap beforeSuspend")
+                end
+            end)
         else
-            logger.warn("ZenMTP: cannot wrap beforeSuspend")
+            logger.dbg("ZenMTP: fl_br file exists but invalid, skipping fl init")
         end
-    end)
-
-    if not self.settings then
-        self.settings = LuaSettings:open(SETTINGS_FILE)
+    else
+        logger.dbg("ZenMTP: not a daemon restore launch, skipping fl init")
     end
+
+    self:onDispatcherRegisterActions()
 
     local confirm_setting = self.settings:readSetting("confirm_before_run")
     self.confirm_before_run = confirm_setting == nil and true or confirm_setting
-    self:onDispatcherRegisterActions()
 
     if self.ui and self.ui.menu then
         self.ui.menu:registerToMainMenu(self)

@@ -136,6 +136,13 @@ done
 
 if [ "$_t" -ge 21600 ]; then log_d "timeout 6h; exiting"; exit 0; fi
 
+# Only restore KOReader if ZenMTP was launched from within KOReader
+if [ ! -f /tmp/zenmtp_from_koreader ]; then
+    log_d "not launched from KOReader; skipping KOReader restore"
+    rm -f "$RESTORE_FLAG" 2>/dev/null || true
+    exit 0
+fi
+
 # Kill orphaned splash daemon before anything else
 touch "/tmp/zenmtp_splash.stop" 2>/dev/null || true
 if [ -r "/tmp/zenmtp_splash.pid" ]; then
@@ -165,6 +172,7 @@ if koreader_running; then
 fi
 
 rm -f "$RESTORE_FLAG" 2>/dev/null || true
+rm -f /tmp/zenmtp_from_koreader 2>/dev/null || true
 
 if [ -f "$KOREADER_LAUNCH" ]; then
     nohup sh "$KOREADER_LAUNCH" --kual --framework_stop </dev/null >/dev/null 2>&1 &
