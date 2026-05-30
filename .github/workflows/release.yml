@@ -17,16 +17,23 @@ jobs:
       - name: Get version
         id: version
         run: |
-          VERSION=$(grep '^# Version:' ZenMTP/ZenMTP.sh | awk '{print $3}')
+          VERSION=$(grep '^# Version:' zen_mtp.koplugin/payload/ZenMTP/ZenMTP.sh | awk '{print $3}')
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
 
-      - name: Zip ZenMTP
-        run: zip -r "ZenMTP-v${{ steps.version.outputs.version }}.zip" ZenMTP/
+      - name: Zip KOReader plugin
+        run: zip -r "zen_mtp.koplugin-v${{ steps.version.outputs.version }}.zip" zen_mtp.koplugin/
+
+      - name: Zip standalone ZenMTP scripts
+        run: |
+          cd zen_mtp.koplugin/payload
+          zip -r "../../ZenMTP-v${{ steps.version.outputs.version }}.zip" ZenMTP/
 
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.tag }}
           name: ${{ steps.version.outputs.tag }}
-          files: ZenMTP-v${{ steps.version.outputs.version }}.zip
+          files: |
+            zen_mtp.koplugin-v${{ steps.version.outputs.version }}.zip
+            ZenMTP-v${{ steps.version.outputs.version }}.zip

@@ -56,12 +56,12 @@ local TARGET_DIR = "/mnt/us/documents/" .. PAYLOAD_DIR_NAME
 local TARGET_SCRIPT = TARGET_DIR .. "/ZenMTP.sh"
 local TARGET_IMAGE = TARGET_DIR .. "/zen.png"
 local TARGET_SIGNATURE_FILE = TARGET_DIR .. "/.zenmtp_payload_signature"
-local WATCHER_PAYLOAD_DIR_NAME = ".ZenMTP"
-local WATCHER_TARGET_DIR = "/mnt/us/.ZenMTP"
-local WATCHER_TARGET_SCRIPT = WATCHER_TARGET_DIR .. "/zen_mtpd.sh"
+local DAEMON_PAYLOAD_DIR_NAME = ".ZenMTP"
+local DAEMON_TARGET_DIR = "/mnt/us/.ZenMTP"
+local DAEMON_TARGET_SCRIPT = DAEMON_TARGET_DIR .. "/zen_mtpd.sh"
 local BUNDLED_SCRIPT_NAME = "ZenMTP.sh"
 local BUNDLED_IMAGE_NAME = "zen.png"
-local BUNDLED_WATCHER_NAME = "zen_mtpd.sh"
+local BUNDLED_DAEMON_NAME = "zen_mtpd.sh"
 local SETTINGS_FILE = DataStorage:getSettingsDir() .. "/zenmtp.lua"
 
 local install_error_notified = false
@@ -148,13 +148,13 @@ local function payloadInstalledCompletely()
     if lfs.attributes(TARGET_DIR, "mode") ~= "directory" then
         return false
     end
-    if lfs.attributes(WATCHER_TARGET_DIR, "mode") ~= "directory" then
+    if lfs.attributes(DAEMON_TARGET_DIR, "mode") ~= "directory" then
         return false
     end
 
     return lfs.attributes(TARGET_SCRIPT, "mode") == "file"
         and lfs.attributes(TARGET_IMAGE, "mode") == "file"
-        and lfs.attributes(WATCHER_TARGET_SCRIPT, "mode") == "file"
+        and lfs.attributes(DAEMON_TARGET_SCRIPT, "mode") == "file"
 end
 
 local function stableDigest(data)
@@ -184,8 +184,8 @@ end
 local function bundledPayloadSignature(bundled_dir)
     local script_path = bundled_dir .. "/" .. BUNDLED_SCRIPT_NAME
     local image_path = bundled_dir .. "/" .. BUNDLED_IMAGE_NAME
-    local watcher_bundled_dir = bundled_dir:gsub("/" .. PAYLOAD_DIR_NAME .. "$", "/" .. WATCHER_PAYLOAD_DIR_NAME)
-    local watcher_path = watcher_bundled_dir .. "/" .. BUNDLED_WATCHER_NAME
+    local daemon_bundled_dir = bundled_dir:gsub("/" .. PAYLOAD_DIR_NAME .. "$", "/" .. DAEMON_PAYLOAD_DIR_NAME)
+    local daemon_path = daemon_bundled_dir .. "/" .. BUNDLED_DAEMON_NAME
 
     local script_digest = fileDigest(script_path)
     if not script_digest then
@@ -197,12 +197,12 @@ local function bundledPayloadSignature(bundled_dir)
         return nil, T(_("Cannot hash bundled payload file:\n%1"), image_path)
     end
 
-    local watcher_digest = fileDigest(watcher_path)
-    if not watcher_digest then
-        return nil, T(_("Cannot hash bundled payload file:\n%1"), watcher_path)
+    local daemon_digest = fileDigest(daemon_path)
+    if not daemon_digest then
+        return nil, T(_("Cannot hash bundled payload file:\n%1"), daemon_path)
     end
 
-    return script_digest .. "|" .. image_digest .. "|" .. watcher_digest
+    return script_digest .. "|" .. image_digest .. "|" .. daemon_digest
 end
 
 local function readInstalledPayloadSignature()
@@ -229,7 +229,7 @@ local function writeInstalledPayloadSignature(signature)
 end
 
 local ZenMTP = WidgetContainer:extend{
-    name = "zenmtp",
+    name = "zen_mtp",
     is_doc_only = false,
     confirm_before_run = true,
     settings = nil,
@@ -306,15 +306,15 @@ function ZenMTP:ensurePayloadInstalled()
         return nil, copy_err or _("Failed to install Zen MTP payload.")
     end
 
-    -- Deploy watcher from its own payload dir
-    local watcher_bundled_dir = bundled_dir:gsub("/" .. PAYLOAD_DIR_NAME .. "$", "/" .. WATCHER_PAYLOAD_DIR_NAME)
-    local watcher_copied, watcher_copy_err = copyTree(watcher_bundled_dir, WATCHER_TARGET_DIR)
-    if not watcher_copied then
-        return nil, watcher_copy_err or _("Failed to install Zen MTP watcher payload.")
+    -- Deploy daemon from its own payload dir
+    local daemon_bundled_dir = bundled_dir:gsub("/" .. PAYLOAD_DIR_NAME .. "$", "/" .. DAEMON_PAYLOAD_DIR_NAME)
+    local daemon_copied, daemon_copy_err = copyTree(daemon_bundled_dir, DAEMON_TARGET_DIR)
+    if not daemon_copied then
+        return nil, daemon_copy_err or _("Failed to install Zen MTP daemon payload.")
     end
 
     ensureExecutable(TARGET_SCRIPT)
-    ensureExecutable(WATCHER_TARGET_SCRIPT)
+    ensureExecutable(DAEMON_TARGET_SCRIPT)
 
     if not writeInstalledPayloadSignature(signature) then
         logger.warn("ZenMTP: failed to write payload signature marker:", TARGET_SIGNATURE_FILE)
@@ -340,47 +340,60 @@ function ZenMTP:notifyInstallError(err)
 end
 
 function ZenMTP:init()
+    if not self.settings then
+        self.settings = LuaSettings:open(SETTINGS_FILE)
+    end
+
     os.remove("/tmp/zenmtp_restore_needed")
     os.execute("touch /tmp/zenmtp_splash.stop 2>/dev/null")
     os.execute("eips -c 2>/dev/null")
 
     logger.dbg("ZenMTP: init")
 
-    -- Init frontlight widget state and hook suspend so the sleep
-    -- screen turns off the light (powerd is dead from --framework_stop).
-    UIManager:scheduleIn(3, function()
-        local ok, pd = pcall(function() return Device:getPowerDevice() end)
-        if not ok or not pd then
-            logger.warn("ZenMTP: cannot get PowerDevice")
-            return
-        end
-        if not pd.setIntensity then
-            logger.warn("ZenMTP: PowerDevice has no setIntensity")
-            return
-        end
-        local fl = tonumber(G_reader_settings and G_reader_settings:readSetting("frontlight_intensity")) or 10
-        pcall(pd.setIntensity, pd, fl)
-        logger.dbg("ZenMTP: fl widget init intensity=", fl)
+    -- Restore frontlight only when KOReader was launched by our daemon
+    -- after MTP disconnect. Skip on normal launches so other plugins
+    -- (e.g. schedule-based brightness) are not overridden.
+    local fl_br_file = io.open("/tmp/zenmtp_fl_br", "r")
+    if fl_br_file then
+        local saved_fl = fl_br_file:read("*l")
+        fl_br_file:close()
+        local fl = tonumber(saved_fl)
+        if fl and fl > 0 then
+            UIManager:scheduleIn(3, function()
+                local ok, pd = pcall(function() return Device:getPowerDevice() end)
+                if not ok or not pd then
+                    logger.warn("ZenMTP: cannot get PowerDevice")
+                    return
+                end
+                if not pd.setIntensity then
+                    logger.warn("ZenMTP: PowerDevice has no setIntensity")
+                    return
+                end
+                pcall(pd.setIntensity, pd, fl)
+                logger.dbg("ZenMTP: fl widget init intensity=", fl)
 
-        if pd.beforeSuspend and not pd._zenmtp_bs_wrapped then
-            local _orig = pd.beforeSuspend
-            pd.beforeSuspend = function(self, ...)
-                os.execute("for b in /sys/class/backlight/*/brightness; do [ -w \"$b\" ] && echo 0 > \"$b\" 2>/dev/null; done")
-                return _orig(self, ...)
-            end
-            pd._zenmtp_bs_wrapped = true
+                if pd.beforeSuspend and not pd._zenmtp_bs_wrapped then
+                    local _orig = pd.beforeSuspend
+                    pd.beforeSuspend = function(self, ...)
+                        os.execute("for b in /sys/class/backlight/*/brightness; do [ -w \"$b\" ] && echo 0 > \"$b\" 2>/dev/null; done")
+                        return _orig(self, ...)
+                    end
+                    pd._zenmtp_bs_wrapped = true
+                else
+                    logger.warn("ZenMTP: cannot wrap beforeSuspend")
+                end
+            end)
         else
-            logger.warn("ZenMTP: cannot wrap beforeSuspend")
+            logger.dbg("ZenMTP: fl_br file exists but invalid, skipping fl init")
         end
-    end)
-
-    if not self.settings then
-        self.settings = LuaSettings:open(SETTINGS_FILE)
+    else
+        logger.dbg("ZenMTP: not a daemon restore launch, skipping fl init")
     end
+
+    self:onDispatcherRegisterActions()
 
     local confirm_setting = self.settings:readSetting("confirm_before_run")
     self.confirm_before_run = confirm_setting == nil and true or confirm_setting
-    self:onDispatcherRegisterActions()
 
     if self.ui and self.ui.menu then
         self.ui.menu:registerToMainMenu(self)

@@ -3,18 +3,18 @@
 RESTORE_FLAG="/tmp/zenmtp_restore_needed"
 KOREADER_LAUNCH="/mnt/us/koreader/koreader.sh"
 LOG="/tmp/zenmtp.log"
-WATCHER_DIR="$(cd "$(dirname "$0")" && pwd)"
+DAEMON_DIR="$(cd "$(dirname "$0")" && pwd)"
 MAIN_PID_FILE="/tmp/zenmtp_main.pid"
 SETUP_DONE_FLAG="/tmp/zenmtp_setup_done"
 GDIR="/sys/kernel/config/usb_gadget/mtpgadget"
-LOCK="/tmp/zenmtp_watcher.lock"
+LOCK="/tmp/zenmtp_daemon.lock"
 
-log_w() { echo "$(date '+%Y-%m-%d %H:%M:%S') restore-watcher $*" >> "$LOG"; }
+log_d() { echo "$(date '+%Y-%m-%d %H:%M:%S') restore-daemon $*" >> "$LOG"; }
 
 if [ -r "$LOCK" ]; then
     _other="$(cat "$LOCK" 2>/dev/null)"
     if [ -n "$_other" ] && kill -0 "$_other" 2>/dev/null; then
-        log_w "another watcher already running pid=$_other; exiting"
+        log_d "another daemon already running pid=$_other; exiting"
         exit 0
     fi
 fi
@@ -23,7 +23,7 @@ trap 'rm -f "$LOCK" 2>/dev/null || true' EXIT
 trap '' TERM HUP INT QUIT USR1 USR2
 
 _ppid="$(cut -d' ' -f4 /proc/$$/stat 2>/dev/null)"
-log_w "started pid=$$ ppid=$_ppid"
+log_d "started pid=$$ ppid=$_ppid"
 
 zenmtp_running() {
     if [ -r "$MAIN_PID_FILE" ]; then
@@ -63,7 +63,7 @@ log_mtp_state() {
     _ls="none"
     [ -n "$_lu" ] && _ls="$(cat "/sys/class/udc/$_lu/state" 2>/dev/null || echo read_err)"
     _flag=N; [ -f "$RESTORE_FLAG" ] && _flag=Y
-    log_w "mtp_state tizen_mtp=${_lm} udc=${_lu:-none} udc_state=${_ls} flag=${_flag}"
+    log_d "mtp_state tizen_mtp=${_lm} udc=${_lu:-none} udc_state=${_ls} flag=${_flag}"
 }
 
 koreader_running() {
@@ -75,13 +75,13 @@ _t=0
 seen_active=0
 while [ "$_t" -lt 120 ]; do
     if [ ! -f "$RESTORE_FLAG" ]; then
-        log_w "restore flag cleared during startup wait at ${_t}s; exiting"
+        log_d "restore flag cleared during startup wait at ${_t}s; exiting"
         exit 0
     fi
     if [ "$_t" -eq 0 ] || [ $((_t % 20)) -eq 0 ]; then log_mtp_state; fi
     if mtp_is_active; then
         seen_active=1
-        log_w "MTP active detected at ${_t}s; entering session watch"
+        log_d "MTP active detected at ${_t}s; entering session watch"
         break
     fi
     sleep 2
@@ -90,12 +90,12 @@ done
 
 if [ "$seen_active" -eq 0 ]; then
     log_mtp_state
-    log_w "MTP never reached active within 120s; exiting"
+    log_d "MTP never reached active within 120s; exiting"
     exit 0
 fi
 
 log_mtp_state
-log_w "phase2 begin"
+log_d "phase2 begin"
 
 # --- Phase 2: poll until MTP goes inactive (up to 6h), then restore ---
 _t=0
@@ -103,7 +103,7 @@ _hb=0
 inactive_streak=0
 while [ "$_t" -lt 21600 ]; do
     if [ ! -f "$RESTORE_FLAG" ]; then
-        log_w "restore flag cleared mid-session at ${_t}s; exiting"
+        log_d "restore flag cleared mid-session at ${_t}s; exiting"
         exit 0
     fi
     _mtp_now=0
@@ -114,7 +114,7 @@ while [ "$_t" -lt 21600 ]; do
         inactive_streak=$((inactive_streak + 2))
         if [ "$inactive_streak" -ge 4 ]; then
             log_mtp_state
-            log_w "MTP inactive for ${inactive_streak}s at elapsed=${_t}s; triggering restore"
+            log_d "MTP inactive for ${inactive_streak}s at elapsed=${_t}s; triggering restore"
             break
         fi
     fi
@@ -123,10 +123,10 @@ while [ "$_t" -lt 21600 ]; do
     _hb=$((_hb + 2))
     if [ "$_hb" -ge 30 ]; then
         log_mtp_state
-        log_w "heartbeat alive at ${_t}s inactive_streak=${inactive_streak}"
+        log_d "heartbeat alive at ${_t}s inactive_streak=${inactive_streak}"
         # If KOReader is running (e.g. launched manually during MTP), abort.
         if koreader_running; then
-            log_w "koreader detected running at heartbeat; clearing flag and exiting"
+            log_d "koreader detected running at heartbeat; clearing flag and exiting"
             rm -f "$RESTORE_FLAG" 2>/dev/null || true
             exit 0
         fi
@@ -134,7 +134,14 @@ while [ "$_t" -lt 21600 ]; do
     fi
 done
 
-if [ "$_t" -ge 21600 ]; then log_w "timeout 6h; exiting"; exit 0; fi
+if [ "$_t" -ge 21600 ]; then log_d "timeout 6h; exiting"; exit 0; fi
+
+# Only restore KOReader if ZenMTP was launched from within KOReader
+if [ ! -f /tmp/zenmtp_from_koreader ]; then
+    log_d "not launched from KOReader; skipping KOReader restore"
+    rm -f "$RESTORE_FLAG" 2>/dev/null || true
+    exit 0
+fi
 
 # Kill orphaned splash daemon before anything else
 touch "/tmp/zenmtp_splash.stop" 2>/dev/null || true
@@ -142,7 +149,7 @@ if [ -r "/tmp/zenmtp_splash.pid" ]; then
     _spid="$(cat "/tmp/zenmtp_splash.pid" 2>/dev/null)"
     if [ -n "$_spid" ] && kill -0 "$_spid" 2>/dev/null; then
         kill "$_spid" 2>/dev/null || true
-        log_w "killed orphaned splash daemon pid=$_spid"
+        log_d "killed orphaned splash daemon pid=$_spid"
     fi
 fi
 rm -f "/tmp/zenmtp_splash.pid" 2>/dev/null || true
@@ -159,17 +166,18 @@ fi
 
 # If KOReader is already running, don't interfere — clear flag and exit.
 if koreader_running; then
-    log_w "koreader already running; clearing flag and exiting"
+    log_d "koreader already running; clearing flag and exiting"
     rm -f "$RESTORE_FLAG" 2>/dev/null || true
     exit 0
 fi
 
 rm -f "$RESTORE_FLAG" 2>/dev/null || true
+rm -f /tmp/zenmtp_from_koreader 2>/dev/null || true
 
 if [ -f "$KOREADER_LAUNCH" ]; then
     nohup sh "$KOREADER_LAUNCH" --kual --framework_stop </dev/null >/dev/null 2>&1 &
     _kpid=$!
-    log_w "KOReader launched pid=$_kpid"
+    log_d "KOReader launched pid=$_kpid"
 
     _kr_wait=0
     _kr_ok=0
@@ -179,7 +187,7 @@ if [ -f "$KOREADER_LAUNCH" ]; then
             break
         fi
         if [ -n "$_kpid" ] && ! kill -0 "$_kpid" 2>/dev/null; then
-            log_w "KOReader launch process $_kpid died at ${_kr_wait}s"
+            log_d "KOReader launch process $_kpid died at ${_kr_wait}s"
             break
         fi
         sleep 2
@@ -187,14 +195,14 @@ if [ -f "$KOREADER_LAUNCH" ]; then
     done
 
     if [ "$_kr_ok" -eq 0 ]; then
-        log_w "KOReader failed to start within ${_kr_wait}s; restoring Kindle UI"
+        log_d "KOReader failed to start within ${_kr_wait}s; restoring Kindle UI"
         eips -c 2>/dev/null || true
         eips -c 2>/dev/null || true
         start lab126_gui >/dev/null 2>/dev/null || true
         exit 1
     fi
 
-    log_w "KOReader running at ${_kr_wait}s"
+    log_d "KOReader running at ${_kr_wait}s"
 
     # Write saved brightness once to sysfs. Lua handles widget state.
     _fl_br="$(cat /tmp/zenmtp_fl_br 2>/dev/null)"
@@ -203,8 +211,8 @@ if [ -f "$KOREADER_LAUNCH" ]; then
         for _bl in /sys/class/backlight/*/brightness; do
             [ -w "$_bl" ] && echo "$_fl_br" > "$_bl" 2>/dev/null
         done
-        log_w "fl set brightness=$_fl_br"
+        log_d "fl set brightness=$_fl_br"
     fi
 else
-    log_w "KOReader launch script not found: $KOREADER_LAUNCH"
+    log_d "KOReader launch script not found: $KOREADER_LAUNCH"
 fi
