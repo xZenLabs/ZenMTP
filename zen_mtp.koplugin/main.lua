@@ -355,10 +355,15 @@ function ZenMTP:init()
     -- (e.g. schedule-based brightness) are not overridden.
     local fl_br_file = io.open("/tmp/zenmtp_fl_br", "r")
     if fl_br_file then
-        local saved_fl = fl_br_file:read("*l")
         fl_br_file:close()
-        local fl = tonumber(saved_fl)
-        if fl and fl > 0 then
+
+        local restore_intensity = nil
+        local reader_settings = rawget(_G, "G_reader_settings")
+        if reader_settings and reader_settings.readSetting then
+            restore_intensity = tonumber(reader_settings:readSetting("frontlight_intensity"))
+        end
+
+        if restore_intensity and restore_intensity > 0 then
             UIManager:scheduleIn(3, function()
                 local ok, pd = pcall(function() return Device:getPowerDevice() end)
                 if not ok or not pd then
@@ -369,8 +374,11 @@ function ZenMTP:init()
                     logger.warn("ZenMTP: PowerDevice has no setIntensity")
                     return
                 end
-                pcall(pd.setIntensity, pd, fl)
-                logger.dbg("ZenMTP: fl widget init intensity=", fl)
+
+                -- Use KOReader's saved intensity scale (0-100) for widget/device state.
+                -- Raw sysfs brightness is restored by the daemon and may exceed this range.
+                pcall(pd.setIntensity, pd, restore_intensity)
+                logger.dbg("ZenMTP: fl widget init intensity=", restore_intensity)
 
                 if pd.beforeSuspend and not pd._zenmtp_bs_wrapped then
                     local _orig = pd.beforeSuspend
@@ -384,7 +392,7 @@ function ZenMTP:init()
                 end
             end)
         else
-            logger.dbg("ZenMTP: fl_br file exists but invalid, skipping fl init")
+            logger.dbg("ZenMTP: frontlight_intensity missing/invalid, skipping fl init")
         end
     else
         logger.dbg("ZenMTP: not a daemon restore launch, skipping fl init")
