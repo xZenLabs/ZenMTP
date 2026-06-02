@@ -204,9 +204,9 @@ if [ -f "$KOREADER_LAUNCH" ]; then
 
     log_d "KOReader running at ${_kr_wait}s"
 
-    # Write saved brightness once to sysfs. Lua handles widget state.
+    # Write saved brightness once to sysfs. Keep the marker file so Lua can
+    # consume it and resync KOReader frontlight/warmth widget state.
     _fl_br="$(cat /tmp/zenmtp_fl_br 2>/dev/null)"
-    rm -f /tmp/zenmtp_fl_br 2>/dev/null
     if [ -n "$_fl_br" ] && [ "$_fl_br" -gt 0 ] 2>/dev/null; then
         for _bl in /sys/class/backlight/*/brightness; do
             [ -w "$_bl" ] && echo "$_fl_br" > "$_bl" 2>/dev/null

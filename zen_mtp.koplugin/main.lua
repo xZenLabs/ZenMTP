@@ -63,6 +63,7 @@ local BUNDLED_SCRIPT_NAME = "ZenMTP.sh"
 local BUNDLED_IMAGE_NAME = "zen.png"
 local BUNDLED_DAEMON_NAME = "zen_mtpd.sh"
 local SETTINGS_FILE = DataStorage:getSettingsDir() .. "/zenmtp.lua"
+local RESTORE_FL_STATE_FILE = "/tmp/zenmtp_fl_ko"
 
 local install_error_notified = false
 
@@ -70,8 +71,88 @@ local function shellQuote(str)
     return "'" .. tostring(str):gsub("'", "'\\''") .. "'"
 end
 
+local function ensureActiveWidget(ui, widget)
+    if not ui or type(ui.active_widgets) ~= "table" then
+        return false
+    end
+    for _, active in ipairs(ui.active_widgets) do
+        if active == widget then
+            return true
+        end
+    end
+    table.insert(ui.active_widgets, widget)
+    return true
+end
+
+local function removeActiveWidget(ui, widget)
+    if not ui or type(ui.active_widgets) ~= "table" then
+        return
+    end
+    for idx = #ui.active_widgets, 1, -1 do
+        if ui.active_widgets[idx] == widget then
+            table.remove(ui.active_widgets, idx)
+        end
+    end
+end
+
 local function ensureExecutable(path)
     os.execute("chmod 755 " .. shellQuote(path) .. " >/dev/null 2>&1")
+end
+
+local function captureFrontlightStateForRestore()
+    local ok, power_device = pcall(function() return Device:getPowerDevice() end)
+    if not ok or not power_device then
+        logger.warn("ZenMTP: cannot capture fl state; no PowerDevice")
+        return false
+    end
+
+    local intensity = nil
+    local warmth = nil
+
+    if power_device.frontlightIntensity then
+        local intensity_ok, value = pcall(power_device.frontlightIntensity, power_device)
+        if intensity_ok then
+            intensity = tonumber(value)
+        end
+    end
+    if not intensity then
+        intensity = tonumber(power_device.fl_intensity)
+    end
+
+    if power_device.frontlightWarmth then
+        local warmth_ok, value = pcall(power_device.frontlightWarmth, power_device)
+        if warmth_ok then
+            warmth = tonumber(value)
+        end
+    end
+    if warmth == nil then
+        warmth = tonumber(power_device.fl_warmth)
+    end
+
+    local state_file = io.open(RESTORE_FL_STATE_FILE, "wb")
+    if not state_file then
+        logger.warn("ZenMTP: cannot write fl restore state:", RESTORE_FL_STATE_FILE)
+        return false
+    end
+    state_file:write(tostring(intensity or ""), "\n")
+    state_file:write(tostring(warmth or ""), "\n")
+    state_file:close()
+
+    logger.dbg("ZenMTP: captured fl state intensity=", intensity or "nil", " warmth=", warmth or "nil")
+    return true
+end
+
+local function readCapturedFrontlightState()
+    local state_file = io.open(RESTORE_FL_STATE_FILE, "r")
+    if not state_file then
+        return nil, nil
+    end
+
+    local intensity = tonumber(state_file:read("*l"))
+    local warmth = tonumber(state_file:read("*l"))
+    state_file:close()
+    os.remove(RESTORE_FL_STATE_FILE)
+    return intensity, warmth
 end
 
 local function isAbsolutePath(path)
@@ -231,12 +312,15 @@ end
 local ZenMTP = WidgetContainer:extend{
     name = "zen_mtp",
     is_doc_only = false,
+    -- Needed so dispatcher/gesture events reliably reach this plugin.
+    is_always_active = true,
     confirm_before_run = true,
     settings = nil,
     settings_dirty = false,
 }
 
 function ZenMTP:onDispatcherRegisterActions()
+    logger.dbg("ZenMTP: registering dispatcher action zenmtp_switch_to_mtp")
     Dispatcher:registerAction(
         "zenmtp_switch_to_mtp",
         {
@@ -349,51 +433,87 @@ function ZenMTP:init()
     os.execute("eips -c 2>/dev/null")
 
     logger.dbg("ZenMTP: init")
+    logger.dbg("ZenMTP: ui context fm=", self.ui and self.ui.file_chooser and "1" or "0",
+        " reader=", self.ui and self.ui.document and "1" or "0")
+    if ensureActiveWidget(self.ui, self) then
+        logger.dbg("ZenMTP: registered as active widget")
+    else
+        logger.warn("ZenMTP: could not register as active widget")
+    end
 
     -- Restore frontlight only when KOReader was launched by our daemon
     -- after MTP disconnect. Skip on normal launches so other plugins
     -- (e.g. schedule-based brightness) are not overridden.
     local fl_br_file = io.open("/tmp/zenmtp_fl_br", "r")
     if fl_br_file then
+        -- This file is our "returning from ZenMTP daemon" marker.
+        -- Consume it immediately so normal launches won't be treated as restores.
         fl_br_file:close()
+        os.remove("/tmp/zenmtp_fl_br")
 
-        local restore_intensity = nil
-        local reader_settings = rawget(_G, "G_reader_settings")
-        if reader_settings and reader_settings.readSetting then
-            restore_intensity = tonumber(reader_settings:readSetting("frontlight_intensity"))
-        end
+        UIManager:scheduleIn(1, function()
+            local ok, power_device = pcall(function() return Device:getPowerDevice() end)
+            if not ok or not power_device then
+                logger.warn("ZenMTP: cannot get PowerDevice")
+                return
+            end
 
-        if restore_intensity and restore_intensity > 0 then
-            UIManager:scheduleIn(3, function()
-                local ok, pd = pcall(function() return Device:getPowerDevice() end)
-                if not ok or not pd then
-                    logger.warn("ZenMTP: cannot get PowerDevice")
-                    return
+            local restore_intensity, restore_warmth = readCapturedFrontlightState()
+
+            if restore_intensity == nil or restore_warmth == nil then
+                local reader_settings = rawget(_G, "G_reader_settings")
+                if reader_settings and reader_settings.readSetting then
+                    restore_intensity = restore_intensity or tonumber(reader_settings:readSetting("frontlight_intensity"))
+                    restore_warmth = restore_warmth or tonumber(reader_settings:readSetting("frontlight_warmth"))
                 end
-                if not pd.setIntensity then
-                    logger.warn("ZenMTP: PowerDevice has no setIntensity")
-                    return
+            end
+
+            if restore_intensity and restore_intensity > 0 and power_device.setIntensity then
+                local changed = false
+                local set_intensity_ok, result = pcall(power_device.setIntensity, power_device, restore_intensity)
+                if set_intensity_ok and result then
+                    changed = true
                 end
 
-                -- Use KOReader's saved intensity scale (0-100) for widget/device state.
-                -- Raw sysfs brightness is restored by the daemon and may exceed this range.
-                pcall(pd.setIntensity, pd, restore_intensity)
-                logger.dbg("ZenMTP: fl widget init intensity=", restore_intensity)
-
-                if pd.beforeSuspend and not pd._zenmtp_bs_wrapped then
-                    local _orig = pd.beforeSuspend
-                    pd.beforeSuspend = function(self, ...)
-                        os.execute("for b in /sys/class/backlight/*/brightness; do [ -w \"$b\" ] && echo 0 > \"$b\" 2>/dev/null; done")
-                        return _orig(self, ...)
+                -- If cached KOReader state already matches, setIntensity() returns false
+                -- and won't touch hardware. Force-apply hardware in that case.
+                if not changed and power_device.setIntensityHW then
+                    local norm_intensity = restore_intensity
+                    if power_device.normalizeIntensity then
+                        local normalize_intensity_ok, normalized = pcall(power_device.normalizeIntensity, power_device, restore_intensity)
+                        if normalize_intensity_ok and normalized then
+                            norm_intensity = normalized
+                        end
                     end
-                    pd._zenmtp_bs_wrapped = true
-                else
-                    logger.warn("ZenMTP: cannot wrap beforeSuspend")
+                    local set_intensity_hw_ok = pcall(power_device.setIntensityHW, power_device, norm_intensity)
+                    if set_intensity_hw_ok then
+                        power_device.fl_intensity = norm_intensity
+                        if power_device.stateChanged then
+                            pcall(power_device.stateChanged, power_device)
+                        end
+                        logger.dbg("ZenMTP: fl hw forced intensity=", norm_intensity)
+                    end
                 end
-            end)
-        else
-            logger.dbg("ZenMTP: frontlight_intensity missing/invalid, skipping fl init")
-        end
+                logger.dbg("ZenMTP: fl widget init intensity=", restore_intensity)
+            else
+                logger.dbg("ZenMTP: frontlight_intensity missing/invalid, skipping intensity restore")
+            end
+
+            if restore_warmth and restore_warmth >= 0 and power_device.setWarmth then
+                -- force_setting=true: always apply warmth to hardware on restore.
+                pcall(power_device.setWarmth, power_device, restore_warmth, true)
+                logger.dbg("ZenMTP: fl widget init warmth=", restore_warmth)
+            end
+
+            if power_device.beforeSuspend and not power_device._zenmtp_bs_wrapped then
+                local _orig = power_device.beforeSuspend
+                power_device.beforeSuspend = function(self, ...)
+                    os.execute("for b in /sys/class/backlight/*/brightness; do [ -w \"$b\" ] && echo 0 > \"$b\" 2>/dev/null; done")
+                    return _orig(self, ...)
+                end
+                power_device._zenmtp_bs_wrapped = true
+            end
+        end)
     else
         logger.dbg("ZenMTP: not a daemon restore launch, skipping fl init")
     end
@@ -416,6 +536,10 @@ function ZenMTP:init()
     end
 end
 
+function ZenMTP:onCloseWidget()
+    removeActiveWidget(self.ui, self)
+end
+
 function ZenMTP:onFlushSettings()
     if self.settings and self.settings_dirty then
         self.settings:flush()
@@ -434,6 +558,7 @@ function ZenMTP:runScript()
     end
 
     ensureExecutable(TARGET_SCRIPT)
+    captureFrontlightStateForRestore()
     local command = "(ZENMTP_KOREADER_HANDOFF=1 setsid sh " .. shellQuote(TARGET_SCRIPT) .. " </dev/null >/dev/null 2>&1 &) 2>/dev/null || "
         .. "(ZENMTP_KOREADER_HANDOFF=1 nohup sh " .. shellQuote(TARGET_SCRIPT) .. " </dev/null >/dev/null 2>&1 &) 2>/dev/null || "
         .. "(ZENMTP_KOREADER_HANDOFF=1 sh " .. shellQuote(TARGET_SCRIPT) .. " </dev/null >/dev/null 2>&1 &)"
@@ -454,8 +579,10 @@ function ZenMTP:handoffToSystemMTPUI()
 end
 
 function ZenMTP:executeSwitch()
+    logger.dbg("ZenMTP: executeSwitch")
     local ok, err = self:runScript()
     if not ok then
+        logger.warn("ZenMTP: executeSwitch failed:", err or "unknown")
         UIManager:show(InfoMessage:new{
             text = _("Zen MTP could not start.") .. "\n\n" .. (err or _("Unknown error.")),
             icon = "notice-warning",
@@ -473,6 +600,7 @@ function ZenMTP:executeSwitch()
 end
 
 function ZenMTP:onZenMTPSwitch()
+    logger.dbg("ZenMTP: onZenMTPSwitch received")
     if self.confirm_before_run then
         UIManager:show(ConfirmBox:new{
             text = _("Switch Kindle to MTP mode now?"),
