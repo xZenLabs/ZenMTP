@@ -26,8 +26,11 @@ jobs:
 
       - name: Zip standalone ZenMTP scripts
         run: |
-          cd zen_mtp.koplugin/payload
-          zip -r "../../ZenMTP.zip" ZenMTP/
+          mkdir -p release-standalone/documents
+          cp -R zen_mtp.koplugin/payload/.ZenMTP release-standalone/.ZenMTP
+          cp -R zen_mtp.koplugin/payload/ZenMTP release-standalone/documents/ZenMTP
+          cd release-standalone
+          zip -r "../ZenMTP.zip" .ZenMTP/ documents/ZenMTP/
 
       - name: Create release
         uses: softprops/action-gh-release@v2

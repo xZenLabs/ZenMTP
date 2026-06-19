@@ -42,9 +42,16 @@ Newer MediaTek Kindles using `libcomposite`/`configfs` USB gadget framework (202
 2. Restart KOReader or enable the plugin in plugin settings
 3. On first init, the payload is automatically installed to the Kindle
 
+### Standalone scriptlet (without KOReader)
+
+1. Download `ZenMTP.zip` from the latest release
+2. Unzip it
+3. Drag the extracted `.ZenMTP` folder and `documents` folder into the Kindle USB storage root (`/mnt/base-us` on the Kindle)
+
+This installs the daemon at `/mnt/base-us/.ZenMTP/` and the scriptlet at `/mnt/base-us/documents/ZenMTP/`.
+
 ### Assign a gesture
 
 1. Open KOReader > Gestures manager
 2. Pick a gesture > Actions > "Zen MTP"
 3. Trigger the gesture to switch to MTP mode
-
