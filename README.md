@@ -43,6 +43,7 @@ Newer MediaTek Kindles using `libcomposite`/`configfs` USB gadget framework (202
 3. On first init, the payload is automatically installed to the Kindle
 
 ### Standalone scriptlet (without KOReader)
+> Make sure you can see hidden files and folders on your computer. You should see .ZenMTP after unzipping
 
 1. Download `ZenMTP.zip` from the latest release
 2. Unzip it
