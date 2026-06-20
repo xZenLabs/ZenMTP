@@ -590,11 +590,6 @@ function ZenMTP:executeSwitch()
         return true
     end
 
-    UIManager:show(InfoMessage:new{
-        text = _("Switching Kindle to MTP mode...\nKOReader will close when MTP is ready."),
-        timeout = 2,
-    })
-
     self:handoffToSystemMTPUI()
     return true
 end
@@ -679,17 +674,12 @@ function ZenMTP:addToMainMenu(menu_items)
         sub_item_table = self:getSettingsSubItemTable(),
     }
 
-    menu_items.zenmtp = {
+    menu_items.zen_mtp = {
         text = _("Zen MTP"),
         sorting_hint = "more_tools",
-        sub_item_table = {
-            {
-                text = _("Switch to MTP mode"),
-                callback = function()
-                    self:onZenMTPSwitch()
-                end,
-            },
-        },
+        callback = function()
+            self:onZenMTPSwitch()
+        end,
     }
 end
 
