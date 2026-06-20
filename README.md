@@ -1,5 +1,7 @@
 # ZenMTP
 
+<img width="1280" height="640" alt="zen_banner_zenmtp" src="https://github.com/user-attachments/assets/9643d58f-0634-495f-8655-0adea2d11168" />
+
 ZenMTP is a tool to enter/exit `USB MTP` mode on newer Kindles. I have a Kindle scriptlet that you can run as a standalone tool. If you use KOReader, there is also an included KOReader plugin that installs the Kindle scriptlet for you and switches newer MediaTek Kindles (Scribe, 11th gen, etc.) into MTP file-transfer mode, then restores KOReader when the MTP session is disconnected.
 
 This allows you to trigger `USB MTP` mode on newer kindles without having to plug/unplug the device each time. Simply tap the ZenMTP button to trigger usb file transfer when a usb cable is already connected.
