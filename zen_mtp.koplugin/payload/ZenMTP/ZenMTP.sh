@@ -139,7 +139,7 @@ show_splash() {
     if [ -f "$SPLASH" ]; then
         "$EIPS_BIN" -g "$SPLASH" > /dev/null 2>&1
     else
-        "$EIPS_BIN" 0 0 "Zen MTP" > /dev/null 2>&1
+        "$EIPS_BIN" 0 0 "ZenMTP" > /dev/null 2>&1
     fi
 }
 
@@ -183,7 +183,7 @@ start_splash_daemon() {
             if [ -f "$SPLASH" ]; then
                 "$EIPS_BIN" -g "$SPLASH" >/dev/null 2>/dev/null
             else
-                "$EIPS_BIN" 0 0 "Zen MTP" >/dev/null 2>/dev/null
+                "$EIPS_BIN" 0 0 "ZenMTP" >/dev/null 2>/dev/null
             fi
             sleep 1
             _i=$((_i + 1))
@@ -333,7 +333,7 @@ ensure_daemon_upstart_installed() {
 
     cat > "$UPSTART_DAEMON_CONF" <<UPSTARTCONF
 $desired_marker
-description "Zen MTP restore daemon"
+description "ZenMTP restore daemon"
 author "ZenKindleMTP"
 # marker: $desired_marker
 

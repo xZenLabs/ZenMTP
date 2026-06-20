@@ -326,7 +326,7 @@ function ZenMTP:onDispatcherRegisterActions()
         {
             category = "none",
             event = "ZenMTPSwitch",
-            title = _("Zen MTP"),
+            title = _("ZenMTP"),
             general = true,
         }
     )
@@ -387,14 +387,14 @@ function ZenMTP:ensurePayloadInstalled()
 
     local copied, copy_err = copyTree(bundled_dir, TARGET_DIR)
     if not copied then
-        return nil, copy_err or _("Failed to install Zen MTP payload.")
+        return nil, copy_err or _("Failed to install ZenMTP payload.")
     end
 
     -- Deploy daemon from its own payload dir
     local daemon_bundled_dir = bundled_dir:gsub("/" .. PAYLOAD_DIR_NAME .. "$", "/" .. DAEMON_PAYLOAD_DIR_NAME)
     local daemon_copied, daemon_copy_err = copyTree(daemon_bundled_dir, DAEMON_TARGET_DIR)
     if not daemon_copied then
-        return nil, daemon_copy_err or _("Failed to install Zen MTP daemon payload.")
+        return nil, daemon_copy_err or _("Failed to install ZenMTP daemon payload.")
     end
 
     ensureExecutable(TARGET_SCRIPT)
@@ -418,7 +418,7 @@ function ZenMTP:notifyInstallError(err)
 
     install_error_notified = true
     UIManager:show(InfoMessage:new{
-        text = _("Zen MTP payload installation failed.") .. "\n\n" .. (err or _("Unknown error.")),
+        text = _("ZenMTP payload installation failed.") .. "\n\n" .. (err or _("Unknown error.")),
         icon = "notice-warning",
     })
 end
@@ -554,7 +554,7 @@ function ZenMTP:runScript()
     end
 
     if lfs.attributes(TARGET_SCRIPT, "mode") ~= "file" then
-        return nil, T(_("Zen MTP script is missing:\n%1"), TARGET_SCRIPT)
+        return nil, T(_("ZenMTP script is missing:\n%1"), TARGET_SCRIPT)
     end
 
     ensureExecutable(TARGET_SCRIPT)
@@ -568,7 +568,7 @@ function ZenMTP:runScript()
         return true
     end
 
-    return nil, _("Failed to launch Zen MTP script.")
+    return nil, _("Failed to launch ZenMTP script.")
 end
 
 function ZenMTP:handoffToSystemMTPUI()
@@ -584,7 +584,7 @@ function ZenMTP:executeSwitch()
     if not ok then
         logger.warn("ZenMTP: executeSwitch failed:", err or "unknown")
         UIManager:show(InfoMessage:new{
-            text = _("Zen MTP could not start.") .. "\n\n" .. (err or _("Unknown error.")),
+            text = _("ZenMTP could not start.") .. "\n\n" .. (err or _("Unknown error.")),
             icon = "notice-warning",
         })
         return true
@@ -614,12 +614,12 @@ function ZenMTP:onZenMTPInstallPayload()
     local installed, err = self:ensurePayloadInstalled()
     if installed then
         UIManager:show(InfoMessage:new{
-            text = _("Zen MTP payload is ready in /mnt/us/documents/ZenMTP."),
+            text = _("ZenMTP payload is ready in /mnt/us/documents/ZenMTP."),
             timeout = 2,
         })
     else
         UIManager:show(InfoMessage:new{
-            text = _("Zen MTP payload installation failed.") .. "\n\n" .. (err or _("Unknown error.")),
+            text = _("ZenMTP payload installation failed.") .. "\n\n" .. (err or _("Unknown error.")),
             icon = "notice-warning",
         })
     end
@@ -663,7 +663,7 @@ end
 
 function ZenMTP:addToMainMenu(menu_items)
     menu_items.network_zenmtp = {
-        text = _("Zen MTP"),
+        text = _("ZenMTP"),
         sorting_hint = "network",
         checked_func = function()
             return false
@@ -675,7 +675,7 @@ function ZenMTP:addToMainMenu(menu_items)
     }
 
     menu_items.zen_mtp = {
-        text = _("Zen MTP"),
+        text = _("ZenMTP"),
         sorting_hint = "more_tools",
         callback = function()
             self:onZenMTPSwitch()
